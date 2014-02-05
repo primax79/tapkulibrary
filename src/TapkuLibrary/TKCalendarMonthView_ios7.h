@@ -69,7 +69,6 @@
 /** The time zone for calendar grid. */
 @property (nonatomic,strong) NSTimeZone *timeZone;
 
-
 /** The current date highlighted on the month grid.
  @return An `NSDate` object set to the month, year and day of the current selection.
  */
@@ -93,8 +92,5 @@
  @param next YES for next month, NO for previous month.
  */
 - (void) animateToNextOrPreviousMonth:(BOOL)next;
-
-/** Set the tint colour to use for user interface elements */
-+ (UIColor*) setImageTintColour:(UIColor*)color;
 
 @end
