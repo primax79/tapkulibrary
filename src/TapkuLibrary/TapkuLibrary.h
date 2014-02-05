@@ -105,7 +105,9 @@
 // Calendar
 #import "TKCalendarMonthViewController.h"
 #import "TKCalendarMonthTableViewController.h"
+#import "TKCalendarMonthViewProtocols.h"
 #import "TKCalendarMonthView.h"
+#import "TKCalendarMonthView_ios7.h"
 #import "TKCalendarDayViewController.h"
 
 // Coverflow

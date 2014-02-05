@@ -332,11 +332,11 @@ static NSNumberFormatter *numberFormatter = nil;
 	}
 	
 	
-    float myColorValues[] = {1, 1, 1, .8};
+	CGFloat myColorValues[] = {1, 1, 1, .8};
     CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB();
 	CGColorRef whiteColor = CGColorCreate(myColorSpace, myColorValues);
     
-	float darkColorValues[] = {0, 0, 0, .5};
+	CGFloat darkColorValues[] = {0, 0, 0, .5};
     CGColorRef darkColor = CGColorCreate(myColorSpace, darkColorValues);
 	
     
@@ -746,8 +746,7 @@ static NSNumberFormatter *numberFormatter = nil;
 	return self;
 }
 - (id) initWithFrame:(CGRect)frame{
-	self = [self init];
-	return self;
+    return [super initWithFrame:frame];
 }
 
 - (void) didMoveToWindow{

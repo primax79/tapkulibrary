@@ -29,8 +29,6 @@
  
 */
 #import "TKCalendarMonthViewController.h"
-#import "TKCalendarMonthView.h"
-
 
 @interface TKCalendarMonthViewController () 
 @property (nonatomic,strong) NSTimeZone *timeZone;
@@ -76,7 +74,13 @@
 	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
 		self.edgesForExtendedLayout = UIRectEdgeNone;
 	
-	self.monthView = [[TKCalendarMonthView alloc] initWithSundayAsFirst:self.sundayFirst timeZone:self.timeZone];
+    if (TKSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        self.monthView = [[TKCalendarMonthView_ios7 alloc] initWithSundayAsFirst:self.sundayFirst timeZone:self.timeZone];
+        [self.monthView setTintColor:self.view.tintColor];
+    }
+    else{
+        self.monthView = [[TKCalendarMonthView alloc] initWithSundayAsFirst:self.sundayFirst timeZone:self.timeZone];
+    }
 	self.monthView.dataSource = self;
 	self.monthView.delegate = self;
 	[self.view addSubview:self.monthView];

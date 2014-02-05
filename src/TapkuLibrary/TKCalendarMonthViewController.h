@@ -30,7 +30,9 @@
  */
 
 @import UIKit;
+#import "TKGlobal.h"
 #import "TKCalendarMonthView.h"
+#import "TKCalendarMonthView_ios7.h"
 
 @class TKCalendarMonthView;
 @protocol TKCalendarMonthViewDelegate,TKCalendarMonthViewDataSource;
