@@ -179,6 +179,8 @@
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		AC538C8718ABEA6200E21223 /* TKTextLabelsCell.h in Headers */ = {isa = PBXBuildFile; fileRef = AC538C8518ABEA6200E21223 /* TKTextLabelsCell.h */; };
 		AC538C8818ABEA6200E21223 /* TKTextLabelsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AC538C8618ABEA6200E21223 /* TKTextLabelsCell.m */; };
+		AC4CAA8C18A27B14003D99AD /* TKCalendarMonthView_ios7.h in Headers */ = {isa = PBXBuildFile; fileRef = AC4CAA8A18A27B14003D99AD /* TKCalendarMonthView_ios7.h */; };
+		AC4CAA8D18A27B14003D99AD /* TKCalendarMonthView_ios7.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4CAA8B18A27B14003D99AD /* TKCalendarMonthView_ios7.m */; };
 		ACF677FC1839772E00A920D7 /* TKMonthDetailCell.h in Headers */ = {isa = PBXBuildFile; fileRef = ACF677F91839772E00A920D7 /* TKMonthDetailCell.h */; };
 		ACF677FD1839772E00A920D7 /* TKMonthDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ACF677FA1839772E00A920D7 /* TKMonthDetailCell.m */; };
 /* End PBXBuildFile section */
@@ -356,6 +358,8 @@
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AC538C8518ABEA6200E21223 /* TKTextLabelsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKTextLabelsCell.h; sourceTree = "<group>"; };
 		AC538C8618ABEA6200E21223 /* TKTextLabelsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKTextLabelsCell.m; sourceTree = "<group>"; };
+		AC4CAA8A18A27B14003D99AD /* TKCalendarMonthView_ios7.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKCalendarMonthView_ios7.h; sourceTree = "<group>"; };
+		AC4CAA8B18A27B14003D99AD /* TKCalendarMonthView_ios7.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKCalendarMonthView_ios7.m; sourceTree = "<group>"; };
 		ACF677F91839772E00A920D7 /* TKMonthDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKMonthDetailCell.h; sourceTree = "<group>"; };
 		ACF677FA1839772E00A920D7 /* TKMonthDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKMonthDetailCell.m; sourceTree = "<group>"; };
 		ACF677FB1839772E00A920D7 /* TKMonthDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TKMonthDetailCell.xib; sourceTree = "<group>"; };
@@ -694,6 +698,8 @@
 				3B879FC5109BFC07002012FD /* TKCalendarMonthTableViewController.m */,
 				3B9724B911C54C5C0027A97F /* TKCalendarMonthView.h */,
 				3B9724BA11C54C5C0027A97F /* TKCalendarMonthView.m */,
+				AC4CAA8A18A27B14003D99AD /* TKCalendarMonthView_ios7.h */,
+				AC4CAA8B18A27B14003D99AD /* TKCalendarMonthView_ios7.m */,
 				207DFF9015E1E3BE00A0BC2A /* NSDate+CalendarGrid.h */,
 				207DFF9115E1E3BE00A0BC2A /* NSDate+CalendarGrid.m */,
 			);
@@ -774,6 +780,7 @@
 				20C3592118CE5C0700530279 /* TKSoundAlertController.h in Headers */,
 				207DF656178761210091E898 /* UITextField+TKCategory.h in Headers */,
 				2007869B18DCAEAD008526DE /* TKInputView.h in Headers */,
+				AC4CAA8C18A27B14003D99AD /* TKCalendarMonthView_ios7.h in Headers */,
 				207DFF9215E1E3BE00A0BC2A /* NSDate+CalendarGrid.h in Headers */,
 				20DE9F4A168FA1EF00655BF8 /* NSObject+TKCategory.h in Headers */,
 				2057363416A330E700F8CDE6 /* TKCoverflowView.h in Headers */,
@@ -946,6 +953,7 @@
 				3B1DCECB1289B84400884CDF /* NSArray+TKCategory.m in Sources */,
 				3BE8FF8612945C4400DBF3FC /* UIScrollview+TKCategory.m in Sources */,
 				3BBF874C1296E976008AB2B1 /* TKTableViewController.m in Sources */,
+				AC4CAA8D18A27B14003D99AD /* TKCalendarMonthView_ios7.m in Sources */,
 				3BB96F5912B55CD600C38F46 /* UIImageView+TKCategory.m in Sources */,
 				2002B17817D241C2002440AE /* UIScreen+TKCategory.m in Sources */,
 				2007869C18DCAEAD008526DE /* TKInputView.m in Sources */,
