@@ -45,6 +45,7 @@
 
 /** The identifier for the event. */
 @property (nonatomic,strong) NSNumber *identifier;
+@property (nonatomic,strong) NSString *identifierString;
 
 /** The start date for the event. */
 @property (nonatomic,strong) NSDate *startDate;
