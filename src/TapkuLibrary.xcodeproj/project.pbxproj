@@ -182,6 +182,8 @@
 		AC4CAA8C18A27B14003D99AD /* TKCalendarMonthView_ios7.h in Headers */ = {isa = PBXBuildFile; fileRef = AC4CAA8A18A27B14003D99AD /* TKCalendarMonthView_ios7.h */; };
 		AC4CAA8D18A27B14003D99AD /* TKCalendarMonthView_ios7.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4CAA8B18A27B14003D99AD /* TKCalendarMonthView_ios7.m */; };
 		AC4CAA9518A28381003D99AD /* TKCalendarMonthViewProtocols.h in Headers */ = {isa = PBXBuildFile; fileRef = AC4CAA9418A28381003D99AD /* TKCalendarMonthViewProtocols.h */; };
+		AC538C8718ABEA6200E21223 /* TKTextLabelsCell.h in Headers */ = {isa = PBXBuildFile; fileRef = AC538C8518ABEA6200E21223 /* TKTextLabelsCell.h */; };
+		AC538C8818ABEA6200E21223 /* TKTextLabelsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AC538C8618ABEA6200E21223 /* TKTextLabelsCell.m */; };
 		ACF677FC1839772E00A920D7 /* TKMonthDetailCell.h in Headers */ = {isa = PBXBuildFile; fileRef = ACF677F91839772E00A920D7 /* TKMonthDetailCell.h */; };
 		ACF677FD1839772E00A920D7 /* TKMonthDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ACF677FA1839772E00A920D7 /* TKMonthDetailCell.m */; };
 /* End PBXBuildFile section */
@@ -362,6 +364,8 @@
 		AC4CAA8A18A27B14003D99AD /* TKCalendarMonthView_ios7.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKCalendarMonthView_ios7.h; sourceTree = "<group>"; };
 		AC4CAA8B18A27B14003D99AD /* TKCalendarMonthView_ios7.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKCalendarMonthView_ios7.m; sourceTree = "<group>"; };
 		AC4CAA9418A28381003D99AD /* TKCalendarMonthViewProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKCalendarMonthViewProtocols.h; sourceTree = "<group>"; };
+		AC538C8518ABEA6200E21223 /* TKTextLabelsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKTextLabelsCell.h; sourceTree = "<group>"; };
+		AC538C8618ABEA6200E21223 /* TKTextLabelsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKTextLabelsCell.m; sourceTree = "<group>"; };
 		ACF677F91839772E00A920D7 /* TKMonthDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKMonthDetailCell.h; sourceTree = "<group>"; };
 		ACF677FA1839772E00A920D7 /* TKMonthDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKMonthDetailCell.m; sourceTree = "<group>"; };
 		ACF677FB1839772E00A920D7 /* TKMonthDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TKMonthDetailCell.xib; sourceTree = "<group>"; };
