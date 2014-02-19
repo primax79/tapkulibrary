@@ -46,7 +46,7 @@ static NSNumberFormatter *numberFormatter = nil;
 #define TEXT_COLOR [UIColor colorWithWhite:84/255. alpha:1]
 #define TOP_BAR_HEIGHT 45.0f
 #define DOT_FONT_SIZE 18.0f
-#define DATE_FONT_SIZE 14.0f
+#define DATE_FONT_SIZE 20.0f
 #define VIEW_WIDTH 320.0f
 
 @interface TKCalendarMonthView_ios7 ()
@@ -321,13 +321,13 @@ static NSNumberFormatter *numberFormatter = nil;
 	if (today > 0) {
 		NSInteger pre = firstOfPrev > 0 ? lastOfPrev - firstOfPrev + 1 : 0;
 		NSInteger index = today +  pre-1;
+        CGRect r = [self rectForCellAtIndex:index];
+        r.origin.y -= 6;
         
         UIColor* tintColour = self.tintColor;
         UIImage* bgImg = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Today Tile.png")] withTint:tintColour];
-		CGRect r = [self rectForCellAtIndex:index];
         r.size.width = bgImg.size.width;
         r.size.height = bgImg.size.height;
-		r.origin.y -= 6;
 		[bgImg drawInRect:r];
 	}
 	
@@ -413,10 +413,10 @@ static NSNumberFormatter *numberFormatter = nil;
 		
 	}else if(markWasOnToday){
 		NSString *path = TKBUNDLE(@"calendar-ios7/Month Calendar Date Tile Selected.png");
-		self.selectedImageView.image = [UIImage imageWithContentsOfFile:path];
+		self.selectedImageView.image = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:path] withTint:[UIColor blackColor]];
 		markWasOnToday = NO;
 	} else {
-        self.selectedImageView.image = [UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Date Tile Selected.png")];
+        self.selectedImageView.image = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Date Tile Selected.png")] withTint:[UIColor blackColor]];
         
     }
 	
@@ -516,10 +516,10 @@ static NSNumberFormatter *numberFormatter = nil;
 		markWasOnToday = YES;
 	}else if(markWasOnToday){
 		NSString *path = TKBUNDLE(@"calendar-ios7/Month Calendar Date Tile Selected.png");
-		self.selectedImageView.image = [UIImage imageWithContentsOfFile:path];
+		self.selectedImageView.image = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:path] withTint:[UIColor blackColor]];
 		markWasOnToday = NO;
 	} else {
-        self.selectedImageView.image = [UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Date Tile Selected.png")];
+        self.selectedImageView.image = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Date Tile Selected.png")] withTint:[UIColor blackColor]];
     }
 	
 	[self addSubview:self.selectedImageView];
