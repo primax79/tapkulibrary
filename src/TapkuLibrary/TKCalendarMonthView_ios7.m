@@ -640,6 +640,7 @@ static NSNumberFormatter *numberFormatter = nil;
 - (id) initWithSundayAsFirst:(BOOL)s timeZone:(NSTimeZone*)timeZone{
 	if (!(self = [super initWithFrame:CGRectMake(0, 0, VIEW_WIDTH, VIEW_WIDTH)])) return nil;
     
+    self.tintColor = [[[UIApplication sharedApplication] delegate] window].tintColor;
     self.backgroundColor = [UIColor colorWithHex:0xaaaeb6];
 	self.timeZone = timeZone;
 	self.sunday = s;
