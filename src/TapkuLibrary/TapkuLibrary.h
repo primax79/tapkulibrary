@@ -49,6 +49,7 @@
 #import "UIAlertView+TKCategory.h"
 #import "UIGestureRecognizer+TKCategory.h"
 #import "UIFont+TKCategory.h"
+#import "UINavigationBar+TKCategory.h"
 
 #import "TKWindow.h"
 #import "TKViewController.h"
@@ -64,6 +65,8 @@
 #import "TKTextView.h"
 #import "TKSlideToUnlockView.h"
 
+
+// Network
 #import "TKNetworkQueue.h"
 #import "TKHTTPRequest.h"
 #import "TKImageCache.h"
@@ -72,6 +75,8 @@
 #import "TKGlowButton.h"
 #import "TKShimmerLabel.h"
 #import "TKReorderTableView.h"
+
+#import "TKSoundAlertController.h"
 
 // CELLS
 #import "TKLabelCell.h"
@@ -101,3 +106,12 @@
 
 // Coverflow
 #import "TKCoverflowView.h"
+
+
+// Keyboards
+#import "TKInputView.h"
+#import "TKInputKey.h"
+#import "TKNumberInputView.h"
+#import "TKDecimalInputView.h"
+#import "TKDecimalInputWithNextKeyView.h"
+#import "TKNumberInputWithNextKeyView.h"
