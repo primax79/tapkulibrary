@@ -10,7 +10,9 @@
 
 @interface TKMonthDetailCell : UITableViewCell
 
-@property (nonatomic, weak) IBOutlet UILabel *timeLabel;
+@property (nonatomic, weak) IBOutlet UILabel *publicLabel;
+@property (nonatomic, weak) IBOutlet UILabel *timeStartLabel;
+@property (nonatomic, weak) IBOutlet UILabel *timeEndLabel;
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *noEventsLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *thumbnailImageView;
