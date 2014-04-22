@@ -523,7 +523,7 @@ static NSNumberFormatter *numberFormatter = nil;
     }
 	
 	[self addSubview:self.selectedImageView];
-	self.currentDay.text = [NSString stringWithFormat:@"%d",day];
+	self.currentDay.text = [NSString stringWithFormat:@"%ld",(long)day];
 	
 	if (self.marks.count > 0) {
 		if([self.marks[row * 7 + column] boolValue])
