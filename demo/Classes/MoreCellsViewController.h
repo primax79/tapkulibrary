@@ -40,6 +40,6 @@
 @property (nonatomic,strong) TKTextViewCell *textViewCell;
 @property (nonatomic,strong) TKTextFieldCell *textFieldCell;
 @property (nonatomic,strong) TKTextLabelsCell *textLabelsCell;
-
+@property (nonatomic,strong) TKStepperCell *stepperCell;
 
 @end

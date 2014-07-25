@@ -27,6 +27,8 @@
 		2014592D17A107FF00629488 /* UIGestureRecognizer+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2014592B17A107FF00629488 /* UIGestureRecognizer+TKCategory.m */; };
 		201E5BF617C7CECE00027C47 /* UIViewController+TKCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 201E5BF417C7CECE00027C47 /* UIViewController+TKCategory.h */; };
 		201E5BF717C7CECE00027C47 /* UIViewController+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 201E5BF517C7CECE00027C47 /* UIViewController+TKCategory.m */; };
+		202369DE18F586F300FE69B0 /* TKStepperCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 202369DC18F586F300FE69B0 /* TKStepperCell.h */; };
+		202369DF18F586F300FE69B0 /* TKStepperCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 202369DD18F586F300FE69B0 /* TKStepperCell.m */; };
 		2026B5391746F4D000447F22 /* UIImagePickerController+TKCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2026B5371746F4D000447F22 /* UIImagePickerController+TKCategory.h */; };
 		2026B53A1746F4D000447F22 /* UIImagePickerController+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2026B5381746F4D000447F22 /* UIImagePickerController+TKCategory.m */; };
 		2026B552174810B900447F22 /* TKTextFieldCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 2026B550174810B900447F22 /* TKTextFieldCell.h */; };
@@ -45,6 +47,10 @@
 		20529A3B17FF46A400FFF627 /* UIActionSheet+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 20529A3917FF46A400FFF627 /* UIActionSheet+TKCategory.m */; };
 		2052E87F174F532500F06B66 /* TKWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2052E87D174F532500F06B66 /* TKWebViewController.h */; };
 		2052E880174F532500F06B66 /* TKWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2052E87E174F532500F06B66 /* TKWebViewController.m */; };
+		2053A4951961B14F00A9E00D /* TKMultiSwitch.h in Headers */ = {isa = PBXBuildFile; fileRef = 2053A4931961B14F00A9E00D /* TKMultiSwitch.h */; };
+		2053A4961961B14F00A9E00D /* TKMultiSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 2053A4941961B14F00A9E00D /* TKMultiSwitch.m */; };
+		2053A49D1961CAE400A9E00D /* TKPegSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 2053A49B1961CAE400A9E00D /* TKPegSlider.h */; };
+		2053A49E1961CAE400A9E00D /* TKPegSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2053A49C1961CAE400A9E00D /* TKPegSlider.m */; };
 		2057363416A330E700F8CDE6 /* TKCoverflowView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2057363216A330E700F8CDE6 /* TKCoverflowView.h */; };
 		2057363516A330E700F8CDE6 /* TKCoverflowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2057363316A330E700F8CDE6 /* TKCoverflowView.m */; };
 		2070A16518C63AFB00D213FD /* UINavigationBar+TKCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2070A16318C63AFB00D213FD /* UINavigationBar+TKCategory.h */; };
@@ -198,6 +204,8 @@
 		2014592B17A107FF00629488 /* UIGestureRecognizer+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+TKCategory.m"; sourceTree = "<group>"; };
 		201E5BF417C7CECE00027C47 /* UIViewController+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TKCategory.h"; sourceTree = "<group>"; };
 		201E5BF517C7CECE00027C47 /* UIViewController+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TKCategory.m"; sourceTree = "<group>"; };
+		202369DC18F586F300FE69B0 /* TKStepperCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKStepperCell.h; sourceTree = "<group>"; };
+		202369DD18F586F300FE69B0 /* TKStepperCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKStepperCell.m; sourceTree = "<group>"; };
 		2026B5371746F4D000447F22 /* UIImagePickerController+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImagePickerController+TKCategory.h"; sourceTree = "<group>"; };
 		2026B5381746F4D000447F22 /* UIImagePickerController+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImagePickerController+TKCategory.m"; sourceTree = "<group>"; };
 		2026B550174810B900447F22 /* TKTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKTextFieldCell.h; sourceTree = "<group>"; };
@@ -216,6 +224,10 @@
 		20529A3917FF46A400FFF627 /* UIActionSheet+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+TKCategory.m"; sourceTree = "<group>"; };
 		2052E87D174F532500F06B66 /* TKWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKWebViewController.h; sourceTree = "<group>"; };
 		2052E87E174F532500F06B66 /* TKWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKWebViewController.m; sourceTree = "<group>"; };
+		2053A4931961B14F00A9E00D /* TKMultiSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKMultiSwitch.h; sourceTree = "<group>"; };
+		2053A4941961B14F00A9E00D /* TKMultiSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKMultiSwitch.m; sourceTree = "<group>"; };
+		2053A49B1961CAE400A9E00D /* TKPegSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKPegSlider.h; sourceTree = "<group>"; };
+		2053A49C1961CAE400A9E00D /* TKPegSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKPegSlider.m; sourceTree = "<group>"; };
 		2057363216A330E700F8CDE6 /* TKCoverflowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKCoverflowView.h; sourceTree = "<group>"; };
 		2057363316A330E700F8CDE6 /* TKCoverflowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKCoverflowView.m; sourceTree = "<group>"; };
 		2070A16318C63AFB00D213FD /* UINavigationBar+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+TKCategory.h"; sourceTree = "<group>"; };
@@ -517,6 +529,8 @@
 				3BAC9A3D10953E5200F235F1 /* TKTableViewCell.m */,
 				AC538C8518ABEA6200E21223 /* TKTextLabelsCell.h */,
 				AC538C8618ABEA6200E21223 /* TKTextLabelsCell.m */,
+				202369DC18F586F300FE69B0 /* TKStepperCell.h */,
+				202369DD18F586F300FE69B0 /* TKStepperCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -655,6 +669,10 @@
 				20A2A51F174C37870058571F /* TKSlideToUnlockView.m */,
 				20F6154017E69E75007F443C /* TKShimmerLabel.h */,
 				20F6154117E69E75007F443C /* TKShimmerLabel.m */,
+				2053A4931961B14F00A9E00D /* TKMultiSwitch.h */,
+				2053A4941961B14F00A9E00D /* TKMultiSwitch.m */,
+				2053A49B1961CAE400A9E00D /* TKPegSlider.h */,
+				2053A49C1961CAE400A9E00D /* TKPegSlider.m */,
 				20DAFB011814BAAC00EF525B /* TKRetroButton.h */,
 				20DAFB021814BAAC00EF525B /* TKRetroButton.m */,
 				20C0354D17C9A5DD009EBB33 /* TKGlowButton.h */,
@@ -712,6 +730,8 @@
 				3B6EDDF511547C3000E454DA /* TKCalendarDayView.h in Headers */,
 				3B6EDDF711547C3100E454DA /* TKCalendarDayEventView.h in Headers */,
 				20732DC01800AA880011D714 /* UIFont+TKCategory.h in Headers */,
+				2053A49D1961CAE400A9E00D /* TKPegSlider.h in Headers */,
+				202369DE18F586F300FE69B0 /* TKStepperCell.h in Headers */,
 				3B6EDDFD11547C3800E454DA /* TKEmptyView.h in Headers */,
 				3B6EDE0C11547C4700E454DA /* TKTextViewCell.h in Headers */,
 				202DD0CB188EF01200D5541E /* TKAlertViewController.h in Headers */,
@@ -727,6 +747,7 @@
 				200786A018DCAEC6008526DE /* TKInputKey.h in Headers */,
 				3BB92D2211896022002FA0F9 /* TKProgressBarView.h in Headers */,
 				200786AC18DCB418008526DE /* TKNumberInputWithNextKeyView.h in Headers */,
+				2053A4951961B14F00A9E00D /* TKMultiSwitch.h in Headers */,
 				3BA577BA1199DF1600ECB85B /* TKProgressAlertView.h in Headers */,
 				20F6154217E69E75007F443C /* TKShimmerLabel.h in Headers */,
 				2070A16518C63AFB00D213FD /* UINavigationBar+TKCategory.h in Headers */,
@@ -811,6 +832,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = TK;
 				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "TapkuLibrary" */;
@@ -907,6 +929,7 @@
 				20DAFB041814BAAC00EF525B /* TKRetroButton.m in Sources */,
 				3B6EDE0F11547C4800E454DA /* TKLabelTextViewCell.m in Sources */,
 				200786A918DCB277008526DE /* TKDecimalInputView.m in Sources */,
+				202369DF18F586F300FE69B0 /* TKStepperCell.m in Sources */,
 				2047DAFD17C6692200C62E32 /* UIDevice+TKCategory.m in Sources */,
 				3B6EDE1111547C4900E454DA /* TKLabelTextFieldCell.m in Sources */,
 				3B6EDE1311547C4A00E454DA /* TKLabelSwitchCell.m in Sources */,
@@ -918,6 +941,7 @@
 				201E5BF717C7CECE00027C47 /* UIViewController+TKCategory.m in Sources */,
 				3BA577BB1199DF1600ECB85B /* TKProgressAlertView.m in Sources */,
 				3B9724BE11C54C5C0027A97F /* TKCalendarMonthView.m in Sources */,
+				2053A4961961B14F00A9E00D /* TKMultiSwitch.m in Sources */,
 				3BD32973125B753900BE5EAF /* TKAlertCenter.m in Sources */,
 				3B1DCECB1289B84400884CDF /* NSArray+TKCategory.m in Sources */,
 				3BE8FF8612945C4400DBF3FC /* UIScrollview+TKCategory.m in Sources */,
@@ -951,6 +975,7 @@
 				20FC7CA81719007300C3A7E1 /* NSMutableArray+TKCategory.m in Sources */,
 				20FC7CBD1719313A00C3A7E1 /* TKLoadingView.m in Sources */,
 				2026B53A1746F4D000447F22 /* UIImagePickerController+TKCategory.m in Sources */,
+				2053A49E1961CAE400A9E00D /* TKPegSlider.m in Sources */,
 				2026B553174810B900447F22 /* TKTextFieldCell.m in Sources */,
 				2026B55C1748257B00447F22 /* TKTextView.m in Sources */,
 				20732DC11800AA880011D714 /* UIFont+TKCategory.m in Sources */,
@@ -1023,10 +1048,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"-all_load",
-					"-ObjC",
-				);
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 			};
@@ -1043,10 +1065,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = (
-					"-all_load",
-					"-ObjC",
-				);
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 			};

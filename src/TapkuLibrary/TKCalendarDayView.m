@@ -77,6 +77,7 @@
 @property (nonatomic,strong) NSArray *times;
 @property (nonatomic,strong) UIColor *hourColor;
 @property (nonatomic,assign) BOOL is24hClock;
+@property (nonatomic,assign) BOOL isToday;
 @end
 
 @interface TKWeekdaysView : UIView
@@ -106,13 +107,13 @@
 @implementation TKCalendarDayView
 
 #pragma mark Init & Friends
-- (id) initWithFrame:(CGRect)frame calendar:(NSCalendar*)calendar{
+- (instancetype) initWithFrame:(CGRect)frame calendar:(NSCalendar*)calendar{
 	if(!(self=[super initWithFrame:frame])) return nil;
 	self.calendar = calendar;
     [self _setupView];
     return self;
 }
-- (id) initWithFrame:(CGRect)frame timeZone:(NSTimeZone*)timeZone{
+- (instancetype) initWithFrame:(CGRect)frame timeZone:(NSTimeZone*)timeZone{
 	
 	NSCalendar *cal = [NSCalendar autoupdatingCurrentCalendar];
 	cal.timeZone = timeZone;
@@ -120,11 +121,11 @@
 	self = [self initWithFrame:frame calendar:cal];
     return self;
 }
-- (id) initWithFrame:(CGRect)frame{
+- (instancetype) initWithFrame:(CGRect)frame{
 	self = [self initWithFrame:frame calendar:[NSCalendar autoupdatingCurrentCalendar]];
     return self;
 }
-- (id) initWithCoder:(NSCoder *)decoder {
+- (instancetype) initWithCoder:(NSCoder *)decoder {
     if(!(self=[super initWithCoder:decoder])) return nil;
 	self.calendar = [NSCalendar autoupdatingCurrentCalendar];
     [self _setupView];
@@ -325,13 +326,10 @@
 	self.indexOfCurrentDay = nowPage > 1 ? self.indexOfCurrentDay+1 : self.indexOfCurrentDay-1;
 	
 	
-	BOOL moveDayView = NO;
-	NSInteger day = self.indexOfCurrentDay;
 	if(self.indexOfCurrentDay < 0 || self.indexOfCurrentDay > 6){
 		self.userInteractionEnabled = NO;
-		moveDayView = YES;
 		
-		day = self.indexOfCurrentDay < 0 ? 6 : 0;
+		NSInteger day = self.indexOfCurrentDay < 0 ? 6 : 0;
 		
 		
 		[UIView animateWithDuration:0.3 animations:^{
@@ -441,6 +439,7 @@
 	[self _setupDaysView];
 	[self _scrollToTopEvent:NO];
 	[self.nowLineView updateTime];
+
 }
 - (void) _refreshDataWithPageAtIndex:(NSInteger)index{
 	
@@ -463,6 +462,8 @@
 		}
 	}
 	
+	timeline.isToday = NO;
+	
 	if(self.nowLineView.superview == sv) [self.nowLineView removeFromSuperview];
 	if([timeline.date isTodayWithTimeZone:self.calendar.timeZone]){
 		
@@ -479,10 +480,12 @@
 		CGRect eventFrame = CGRectMake(CGRectGetMinX(self.nowLineView.frame), hourStartPosition + minuteStartPosition - 5,  CGRectGetWidth(self.frame), 14);
 		self.nowLineView.frame = eventFrame;
 		[sv addSubview:self.nowLineView];
+		timeline.isToday = YES;
 
 	}
 	
-	
+	[timeline setNeedsDisplay];
+
 	if(!self.dataSource) return;
 	timeline.events = [NSMutableArray arrayWithArray:[self.dataSource calendarDayTimelineView:self eventsForDate:timeline.date]];
 	
@@ -1024,13 +1027,13 @@
 @implementation TKTimelineView
 
 #pragma mark Init & Friends
-- (id) initWithFrame:(CGRect)frame{
+- (instancetype) initWithFrame:(CGRect)frame{
 	frame.size.height = TIMELINE_HEIGHT;
     if(!(self=[super initWithFrame:frame])) return nil;
     [self _setupView];
     return self;
 }
-- (id) initWithCoder:(NSCoder *)decoder{
+- (instancetype) initWithCoder:(NSCoder *)decoder{
     if(!(self=[super initWithCoder:decoder])) return nil;
     [self _setupView];
 	return self;
@@ -1062,6 +1065,25 @@
 	UIFont *timeFont = [UIFont systemFontOfSize:FONT_SIZE];
 	UIColor *timeColor = [UIColor blackColor];
 	UIColor *lineColor = [UIColor colorWithHex:0xd7d7d7];
+	
+	NSInteger discount = - 100;
+	
+	if(self.isToday){
+		
+		NSDate *now = [NSDate date];
+		NSDateFormatter *form = [[NSDateFormatter alloc] init];
+		form.dateFormat = @"H";
+		NSInteger hour = [[form stringFromDate:now] integerValue];
+		form.dateFormat = @"m";
+
+		NSInteger minute = [[form stringFromDate:now] integerValue];
+		
+		if(minute > 39)
+			discount = hour+1;
+		else if(minute < 21)
+			discount = hour;
+
+	}
 
 	// Draw each times string
 	for (NSInteger i=0; i<self.times.count; i++) {
@@ -1069,7 +1091,9 @@
 		[timeColor set];
 		CGRect timeRect = CGRectMake(2.0, i * VERTICAL_DIFF + VERTICAL_INSET - 7, LEFT_INSET - 2.0f - 6, FONT_SIZE + 2.0);
 
-		[self.times[i] drawInRect:timeRect withFont:timeFont lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentRight];
+		
+		if(i != discount)
+			[self.times[i] drawInRect:timeRect withFont:timeFont lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentRight];
 		
 		CGContextRef context = UIGraphicsGetCurrentContext();
 		CGContextSetInterpolationQuality(context, kCGInterpolationNone);
@@ -1108,7 +1132,7 @@
 
 #define DAY_LABEL_WIDTH 35.0f
 @implementation TKWeekdaysView
-- (id) initWithFrame:(CGRect)frame{
+- (instancetype) initWithFrame:(CGRect)frame{
 	if(!(self=[super initWithFrame:frame])) return nil;
 	
 	
@@ -1132,7 +1156,7 @@
 @implementation TKDateLabel
 
 
-- (id) initWithFrame:(CGRect)frame{
+- (instancetype) initWithFrame:(CGRect)frame{
 	if(!(self=[super initWithFrame:frame])) return nil;
 	self.textAlignment = NSTextAlignmentCenter;
 	self.layer.cornerRadius = DAY_LABEL_WIDTH / 2.0f;
@@ -1181,11 +1205,12 @@
 
 #pragma mark - TKNowView
 @implementation TKNowView
-- (id) init{
+- (instancetype) init{
 	if(!(self=[super initWithFrame:CGRectMake(0, 0, 320, 14)])) return nil;
 	
 	self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-	
+	self.userInteractionEnabled = NO;
+
 	self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, LEFT_INSET-2, CGRectGetHeight(self.frame))];
 	self.timeLabel.textColor = self.tintColor;
 	self.timeLabel.font = [UIFont boldSystemFontOfSize:10];

@@ -46,6 +46,7 @@
 #import "SlideToUnlockViewController.h"
 #import "ButtonViewController.h"
 #import "CustomKeyboardsViewController.h"
+#import "ControlsViewController.h"
 
 @interface UINavigationController (Rotation_IOS6)
 @end
@@ -66,7 +67,7 @@
 
 @implementation RootViewController
 
-- (id) initWithStyle:(UITableViewStyle)s{
+- (instancetype) initWithStyle:(UITableViewStyle)s{
 	if(!(self = [super initWithStyle:s])) return nil;
 	self.title = @"Tapku Library";
 	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
@@ -93,16 +94,15 @@
 #define HTTP_PROGRESS NSLocalizedString(@"HTTP Request Progress",@"")
 #define WEB_VC NSLocalizedString(@"Web View Controller",@"")
 #define CUSTOM_KEYBOARDS NSLocalizedString(@"Custom Keyboards",@"")
+#define MULTI_SWITCH NSLocalizedString(@"Multiswitch",@"")
 
 #pragma mark View Lifecycle
 - (void) viewDidLoad{
 	[super viewDidLoad];
 
-	
-	
 	self.data = @[
-  @{@"rows" : @[COVERFLOW,MONTH_GRID,DAY_VIEW,WEB_VC], @"title" : @"Views"},
-  @{@"rows" : @[EMPTY_SIGN,HUD,ALERTS,SLIDE,BUTTONS,CUSTOM_KEYBOARDS], @"title" : @"UI Elements"},
+  @{@"rows" : @[WEB_VC,DAY_VIEW,MONTH_GRID,COVERFLOW], @"title" : @"Views"},
+  @{@"rows" : @[SLIDE,BUTTONS,MULTI_SWITCH,CUSTOM_KEYBOARDS,HUD,EMPTY_SIGN,ALERTS], @"title" : @"UI Elements"},
   @{@"rows" : @[LABEL_CELLS,MORE_CELLS], @"title" : @"Table View Cells"},
   @{@"rows" : @[IMAGE_CACHE,HTTP_PROGRESS], @"title" : @"Network"}];
 }
@@ -135,6 +135,8 @@
 	UIViewController *vc;
 	NSString *str = cell.textLabel.text;
 	
+	
+	
 	if([str isEqualToString:COVERFLOW]){
 		vc = [[CoverflowViewController alloc] init];
 		
@@ -151,6 +153,9 @@
 	
 	else if([str isEqualToString:DAY_VIEW])
 		vc = CalendarDayViewController.new;
+	
+	else if([str isEqualToString:MULTI_SWITCH])
+		vc = ControlsViewController.new;
 	
 	else if([str isEqualToString:EMPTY_SIGN])
 		vc = EmptyViewController.new;
