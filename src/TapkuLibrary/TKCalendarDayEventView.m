@@ -150,6 +150,36 @@
 	
 }
 
-
+- (void)setColorType:(TKCalendarEventColor)type{
+    float alpha = 1;// 0.8;
+    unsigned int backgroundHexColor;
+    unsigned int borderHexColor;
+    unsigned int textHexColor;
+    
+    switch (type) {
+        case TKCalendarEventColorRed:
+            textHexColor = 0x920814;
+            backgroundHexColor = 0xE6666A;
+            borderHexColor = 0xD04D52;
+            break;
+        case TKCalendarEventColorGreen:
+            textHexColor = 0x279814;
+            backgroundHexColor = 0x7DED6A;
+            borderHexColor = 0x65D752;
+            break;
+        case TKCalendarEventColorBlue:
+        default:
+            textHexColor = 0x194fa5;
+            backgroundHexColor = 0x7ca6ec;
+            borderHexColor = 0x6591db;
+            break;
+    }
+    
+    self.titleLabel.textColor = [UIColor colorWithHex:textHexColor];
+    self.locationLabel.textColor = [UIColor colorWithHex:textHexColor];
+    self.backgroundColor = self.titleLabel.backgroundColor = self.locationLabel.backgroundColor = [UIColor colorWithHex:backgroundHexColor alpha:alpha];
+    self.layer.borderColor = [UIColor colorWithHex:borderHexColor alpha:alpha].CGColor;
+    _colorType = type;
+}
 
 @end
