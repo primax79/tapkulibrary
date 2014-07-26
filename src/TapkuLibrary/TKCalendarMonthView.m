@@ -743,10 +743,8 @@ static UIImage *tileImage;
 	self = [self initWithSundayAsFirst:YES];
 	return self;
 }
-
 - (instancetype) initWithFrame:(CGRect)frame{
-	self = [self init];
-	return self;
+    return [super initWithFrame:frame];
 }
 
 - (void) didMoveToWindow{
