@@ -38,4 +38,10 @@
 /** A `UITextField` field. */
 @property (nonatomic,strong) UITextField *field;
 
+/** Text Color for the `UITextField`. */
+@property (nonatomic, strong) UIColor *textFieldColor;
+
+/** Text Color for the `UITextField` when cell is selected. */
+@property (nonatomic, strong) UIColor *selectedTextFieldColor;
+
 @end

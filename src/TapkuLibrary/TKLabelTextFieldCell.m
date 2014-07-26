@@ -43,6 +43,8 @@
 	_field.backgroundColor = [UIColor clearColor];
     _field.font = [UIFont boldSystemFontOfSize:16.0];
     _field.delegate = self;
+    _textFieldColor = [UIColor blackColor];
+    _selectedTextFieldColor = [UIColor whiteColor];    
     [self.contentView addSubview:_field];
 		
     
@@ -77,7 +79,7 @@
     [super setSelected:selected animated:animated];
 	if(animated)
 		[UIView beginAnimations:nil context:nil];
-	_field.textColor = selected ? [UIColor whiteColor] : [UIColor blackColor];
+	_field.textColor = selected ? _selectedTextFieldColor : _textFieldColor;
 	if(animated)
 		[UIView commitAnimations];
 }
@@ -86,7 +88,7 @@
 	
 	if(animated)
 		[UIView beginAnimations:nil context:nil];
-	_field.textColor = highlighted ? [UIColor whiteColor] : [UIColor blackColor];
+	_field.textColor = highlighted ? _selectedTextFieldColor : _textFieldColor;
 	if(animated)
 		[UIView commitAnimations];
 }
