@@ -199,7 +199,7 @@
 	CGFloat per = CGRectGetWidth(self.frame) / self.labels.count;
 	NSInteger index = point.x / per;
 	
-	TKLog(@"== %d",press.state);
+	TKLog(@"== %ld",press.state);
 	
 	if(press.began){
 		
