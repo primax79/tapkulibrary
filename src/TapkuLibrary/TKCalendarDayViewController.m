@@ -31,6 +31,7 @@
 #import "TKCalendarDayViewController.h"
 #import "TKCalendarDayEventView.h"
 #import "TKCalendarDayView.h"
+#import "TKScale.h"
 
 #pragma mark - TKCalendarDayViewController
 @implementation TKCalendarDayViewController
@@ -40,7 +41,7 @@
 	[super loadView];
 	
 	CGRect frame = self.view.frame;
-	frame.size.width = 320;
+	frame.size.width = 320*[TKScale factor];
 	self.view.frame = frame;
 	
 	if([self respondsToSelector:@selector(edgesForExtendedLayout)])

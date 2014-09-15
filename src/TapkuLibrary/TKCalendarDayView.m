@@ -37,6 +37,7 @@
 #import "UIImageView+TKCategory.h"
 #import "UIView+TKCategory.h"
 #import "UIScreen+TKCategory.h"
+#import "TKScale.h"
 
 #define NOB_SIZE 6.0f
 #define TOP_BAR_HEIGHT 84.0
@@ -1138,7 +1139,7 @@
 	
 	NSMutableArray *labels = [NSMutableArray arrayWithCapacity:7];
 	for(NSInteger i=0;i<7;i++){
-		TKDateLabel *label = [[TKDateLabel alloc] initWithFrame:CGRectMake(8+(DAY_LABEL_WIDTH+9)*i, 16, DAY_LABEL_WIDTH, DAY_LABEL_WIDTH)];
+		TKDateLabel *label = [[TKDateLabel alloc] initWithFrame:CGRectMake((8+(DAY_LABEL_WIDTH+9)*i)*[TKScale factor], 16, DAY_LABEL_WIDTH, DAY_LABEL_WIDTH)];
 		label.weekend = i % 6 == 0;
 		[self addSubviewToBack:label];
 		[labels addObject:label];
@@ -1206,7 +1207,7 @@
 #pragma mark - TKNowView
 @implementation TKNowView
 - (instancetype) init{
-	if(!(self=[super initWithFrame:CGRectMake(0, 0, 320, 14)])) return nil;
+	if(!(self=[super initWithFrame:CGRectMake(0, 0, 320*[TKScale factor], 14*[TKScale factor])])) return nil;
 	
 	self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	self.userInteractionEnabled = NO;
