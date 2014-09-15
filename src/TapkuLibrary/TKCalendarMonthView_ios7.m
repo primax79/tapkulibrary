@@ -38,6 +38,7 @@
 #import "UIColor+TKCategory.h"
 #import "UIImageView+TKCategory.h"
 #import "UIView+TKCategory.h"
+#import "TKScale.h"
 
 static UIColor *gradientColor;
 static UIColor *grayGradientColor;
@@ -48,6 +49,9 @@ static NSNumberFormatter *numberFormatter = nil;
 #define DOT_FONT_SIZE 18.0f
 #define DATE_FONT_SIZE 20.0f
 #define VIEW_WIDTH 320.0f
+#define DAY_HEIGHT 44.0f
+#define DAY_WIDTH 46.0f
+
 
 @interface TKCalendarMonthView_ios7 ()
 
@@ -112,7 +116,7 @@ static NSNumberFormatter *numberFormatter = nil;
 		element.accessibilityLabel = [formatter stringForObjectValue:day];
 		
 		CGRect r = [self convertRect:[self rectForCellAtIndex:i] toView:self.window];
-		r.origin.y -= 6;
+		r.origin.y -= 6*[TKScale factor];
 		
 		element.accessibilityFrame = r;
 		element.accessibilityTraits = UIAccessibilityTraitButton;
@@ -243,7 +247,7 @@ static NSNumberFormatter *numberFormatter = nil;
 	self.datesArray = dates;
 	NSUInteger numberOfDaysBetween = [dates[0] daysBetweenDate:[dates lastObject]];
 	NSUInteger scale = (numberOfDaysBetween / 7) + 1;
-	CGFloat h = 44.0f * scale;
+	CGFloat h = DAY_HEIGHT * scale;
 	
 	
 	NSDateComponents *todayInfo = [[NSDate date] dateComponentsWithTimeZone:self.timeZone];
@@ -264,7 +268,7 @@ static NSNumberFormatter *numberFormatter = nil;
 	}
 	
 	
-	self.frame = CGRectMake(0, 1.0, VIEW_WIDTH, h+1);
+	self.frame = CGRectMake(0, 1.0*[TKScale factor], VIEW_WIDTH*[TKScale factor], (h+1)*[TKScale factor]);
 	
 	[self.selectedImageView addSubview:self.currentDay];
 	[self.selectedImageView addSubview:self.dot];
@@ -284,12 +288,12 @@ static NSNumberFormatter *numberFormatter = nil;
 	NSInteger row = index / 7;
 	NSInteger col = index % 7;
 	
-	return CGRectMake(col*46-1, row*44+6, 46, 44);
+	return CGRectMake((col*DAY_WIDTH*[TKScale factor]-1), (row*DAY_HEIGHT*[TKScale factor]+6), DAY_WIDTH*[TKScale factor], DAY_HEIGHT*[TKScale factor]);
 }
 - (void) drawTileInRect:(CGRect)r day:(NSInteger)day mark:(BOOL)mark font:(UIFont*)f1 font2:(UIFont*)f2 context:(CGContextRef)context{
     
     NSString *str = [numberFormatter stringFromNumber:@(day)];
-	r.size.height -= 2;
+	r.size.height -= 2*[TKScale factor];
 	
 	[str drawInRect: r
 		   withFont: f1
@@ -297,8 +301,8 @@ static NSNumberFormatter *numberFormatter = nil;
 		  alignment: NSTextAlignmentCenter];
 	
 	if(mark){
-		r.size.height = 10;
-		r.origin.y += 19;
+		r.size.height = 10*[TKScale factor];
+		r.origin.y += 19*[TKScale factor];
 		
 		[@"•" drawInRect: r
 				withFont: f2
@@ -311,7 +315,7 @@ static NSNumberFormatter *numberFormatter = nil;
 }
 - (void) drawRect:(CGRect)rect {
 	CGContextRef context = UIGraphicsGetCurrentContext();
-	CGRect r = CGRectMake(-1, 0, 46, 44);
+	CGRect r = CGRectMake(-1, 0, DAY_WIDTH*[TKScale factor], DAY_HEIGHT*[TKScale factor]);
 	
 	CGContextSetInterpolationQuality(context, kCGInterpolationNone);
     
@@ -322,12 +326,12 @@ static NSNumberFormatter *numberFormatter = nil;
 		NSInteger pre = firstOfPrev > 0 ? lastOfPrev - firstOfPrev + 1 : 0;
 		NSInteger index = today +  pre-1;
         CGRect r = [self rectForCellAtIndex:index];
-        r.origin.y -= 6;
+        r.origin.y -= 6*[TKScale factor];
         
         UIColor* tintColour = self.tintColor;
         UIImage* bgImg = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Today Tile.png")] withTint:tintColour];
-        r.size.width = bgImg.size.width;
-        r.size.height = bgImg.size.height;
+		r.size.width = DAY_WIDTH*[TKScale factor]; //bgImg.size.width;
+		r.size.height = DAY_HEIGHT*[TKScale factor]; //bgImg.size.height;
 		[bgImg drawInRect:r];
 	}
 	
@@ -343,8 +347,8 @@ static NSNumberFormatter *numberFormatter = nil;
 	NSInteger index = 0, mc = self.marks.count;
 	
 	
-	UIFont *font = [UIFont systemFontOfSize:DATE_FONT_SIZE];
-	UIFont *font2 =[UIFont boldSystemFontOfSize:DOT_FONT_SIZE];
+	UIFont *font = [UIFont systemFontOfSize:DATE_FONT_SIZE*[TKScale factor]];
+	UIFont *font2 =[UIFont boldSystemFontOfSize:DOT_FONT_SIZE*[TKScale factor]];
 	UIColor *color = [UIColor lightGrayColor];
 	
 	if(firstOfPrev>0){
@@ -401,7 +405,7 @@ static NSNumberFormatter *numberFormatter = nil;
 	
 	selectedDay = day;
 	selectedPortion = 1;
-	self.currentDay.font = [UIFont boldSystemFontOfSize:DATE_FONT_SIZE];
+	self.currentDay.font = [UIFont boldSystemFontOfSize:DATE_FONT_SIZE*[TKScale factor]];
     
 	
 	BOOL hasDot = NO;
@@ -438,7 +442,7 @@ static NSNumberFormatter *numberFormatter = nil;
 		row--;
 	}
     
-	self.selectedImageView.frame = CGRectMakeWithSize((column*46)-1, (row*44), self.selectedImageView.frame.size);
+	self.selectedImageView.frame = CGRectMakeWithSize((column*DAY_WIDTH*[TKScale factor]-1), (row*DAY_HEIGHT*[TKScale factor]-1), self.selectedImageView.frame.size);
 	[self addSubview:self.selectedImageView];
 	
 	
@@ -475,10 +479,10 @@ static NSNumberFormatter *numberFormatter = nil;
 	if(p.x > self.bounds.size.width || p.x < 0) return;
 	if(p.y > self.bounds.size.height || p.y < 0) return;
 	
-	NSInteger column = p.x / 46, row = p.y / 44;
+	NSInteger column = p.x / (DAY_WIDTH*[TKScale factor]), row = p.y / (DAY_HEIGHT*[TKScale factor]);
 	NSInteger day = 1, portion = 0;
 	
-	if(row == (int) (self.bounds.size.height / 44)) row --;
+	if(row == (int) (CGRectGetHeight(self.bounds) / (DAY_HEIGHT*[TKScale factor]))) row --;
 	
 	NSInteger fir = firstWeekday - 1;
 	if(!startOnSunday && fir == 0) fir = 7;
@@ -499,14 +503,15 @@ static NSNumberFormatter *numberFormatter = nil;
 		day = day - daysInMonth;
 	}
 	
-	self.currentDay.font = [UIFont boldSystemFontOfSize:DATE_FONT_SIZE];
+	self.currentDay.font = [UIFont boldSystemFontOfSize:DATE_FONT_SIZE*[TKScale factor]];
 	self.currentDay.hidden = NO;
 	self.dot.hidden = NO;
 	
 	if(portion != 1){
 		markWasOnToday = YES;
-		self.selectedImageView.image = nil;
-		self.selectedImageView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.15];
+		self.selectedImageView.image = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Today Selected Tile.png")] withTint:[UIColor whiteColor]];
+		self.selectedImageView.alpha = 0.5;
+		self.selectedImageView.backgroundColor = [UIColor clearColor];
 		self.currentDay.hidden = YES;
 		self.dot.hidden = YES;
 		
@@ -537,7 +542,8 @@ static NSNumberFormatter *numberFormatter = nil;
     
 	
 	
-	self.selectedImageView.frame = CGRectMakeWithSize((column*46)-1, (row*44), self.selectedImageView.frame.size);
+	self.selectedImageView.frame = CGRectMakeWithSize((column*DAY_WIDTH*[TKScale factor]-1), (row*DAY_HEIGHT*[TKScale factor]-1), self.selectedImageView.frame.size);
+
 	
 	if(day == selectedDay && selectedPortion == portion) return;
 	
@@ -576,7 +582,7 @@ static NSNumberFormatter *numberFormatter = nil;
 	_currentDay.text = @"1";
 	_currentDay.textColor = [UIColor whiteColor];
 	_currentDay.backgroundColor = [UIColor clearColor];
-	_currentDay.font = [UIFont systemFontOfSize:DATE_FONT_SIZE];
+	_currentDay.font = [UIFont systemFontOfSize:DATE_FONT_SIZE*[TKScale factor]];
 	_currentDay.textAlignment = NSTextAlignmentCenter;
 	return _currentDay;
 }
@@ -584,13 +590,13 @@ static NSNumberFormatter *numberFormatter = nil;
 	if(_dot) return _dot;
 	
 	CGRect r = self.selectedImageView.bounds;
-	r.origin.y += 30;
-	r.size.height -= 31;
+	r.origin.y += (30*[TKScale factor]);
+	r.size.height -= (31*[TKScale factor]);
 	_dot = [[UILabel alloc] initWithFrame:r];
 	_dot.text = @"•";
 	_dot.textColor = [UIColor whiteColor];
 	_dot.backgroundColor = [UIColor clearColor];
-	_dot.font = [UIFont boldSystemFontOfSize:DOT_FONT_SIZE];
+	_dot.font = [UIFont boldSystemFontOfSize:DOT_FONT_SIZE*[TKScale factor]];
 	_dot.textAlignment = NSTextAlignmentCenter;
 	return _dot;
 }
@@ -602,7 +608,8 @@ static NSNumberFormatter *numberFormatter = nil;
 	UIImage *img = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:path] withTint:tintColour];
 	_selectedImageView = [[UIImageView alloc] initWithImage:img];
 	_selectedImageView.layer.magnificationFilter = kCAFilterNearest;
-	_selectedImageView.frame = CGRectMake(0, 0, img.size.width, img.size.height);
+	_selectedImageView.frame = CGRectMake(0, 0, DAY_WIDTH*[TKScale factor], DAY_HEIGHT*[TKScale factor]);
+	//	_selectedImageView.frame = CGRectMake(0, 0, 47*[TKScale factor], 45*[TKScale factor]);
 	return _selectedImageView;
 }
 
@@ -638,10 +645,11 @@ static NSNumberFormatter *numberFormatter = nil;
 }
 
 - (instancetype) initWithSundayAsFirst:(BOOL)s timeZone:(NSTimeZone*)timeZone{
-	if (!(self = [super initWithFrame:CGRectMake(0, 0, VIEW_WIDTH, VIEW_WIDTH)])) return nil;
+	if (!(self = [super initWithFrame:CGRectMake(0, 0, VIEW_WIDTH*[TKScale factor],VIEW_WIDTH*[TKScale factor] )])) return nil;
+
     
     self.tintColor = [[[UIApplication sharedApplication] delegate] window].tintColor;
-    self.backgroundColor = [UIColor colorWithHex:0xaaaeb6];
+	self.backgroundColor = [UIColor whiteColor];
 	self.timeZone = timeZone;
 	self.sunday = s;
 	
@@ -691,7 +699,8 @@ static NSNumberFormatter *numberFormatter = nil;
 	
 	NSInteger i = 0;
 	for(NSString *s in ar){
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(46*i + (i==0?0:-1), 30, 45, 15)];
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(DAY_WIDTH*[TKScale factor]*i + (i==0?0:-1), 30*[TKScale factor], 45*[TKScale factor], 15*[TKScale factor])];
+
 		[self addSubview:label];
         
         // Added Accessibility Labels
@@ -762,14 +771,14 @@ static NSNumberFormatter *numberFormatter = nil;
 	
 }
 - (CGRect) _calculatedFrame{
-	return CGRectMakeWithPoint(self.frame.origin, VIEW_WIDTH, self.tileBox.bounds.size.height + self.tileBox.frame.origin.y);
+	return CGRectMakeWithPoint(self.frame.origin, VIEW_WIDTH*[TKScale factor], CGRectGetMaxY(self.tileBox.frame));
 }
 - (CGRect) _calculatedDropShadowFrame{
-	return CGRectMake(0, self.tileBox.bounds.size.height + self.tileBox.frame.origin.y, self.bounds.size.width, 6);
+	return CGRectMake(0, CGRectGetHeight(self.tileBox.bounds) + self.tileBox.frame.origin.y, self.bounds.size.width, 6*[TKScale factor]);
 }
 - (void) _updateSubviewFramesWithTile:(UIView*)tile{
-	self.tileBox.frame = CGRectMake(0, TOP_BAR_HEIGHT-1,VIEW_WIDTH, tile.frame.size.height);
-	self.frame = CGRectMakeWithPoint(self.frame.origin, VIEW_WIDTH, self.tileBox.frame.size.height+self.tileBox.frame.origin.y);
+	self.tileBox.frame = CGRectMake(0, (TOP_BAR_HEIGHT-1)*[TKScale factor],VIEW_WIDTH*[TKScale factor], CGRectGetHeight(tile.frame));
+	self.frame = CGRectMakeWithPoint(self.frame.origin, VIEW_WIDTH*[TKScale factor], CGRectGetMaxY(self.tileBox.frame));
 	self.shadow.frame = self.tileBox.frame;
 	self.dropshadow.frame = [self _calculatedDropShadowFrame];
 }
@@ -863,14 +872,14 @@ static NSNumberFormatter *numberFormatter = nil;
 	NSInteger overlap =  0;
 	
 	if(isNext)
-		overlap = [newTile.monthDate isEqualToDate:dates[0]] ? 0 : 44;
+		overlap = [newTile.monthDate isEqualToDate:dates[0]] ? 0 : DAY_HEIGHT;
 	else
-		overlap = [self.currentTile.monthDate compare:[dates lastObject]] !=  NSOrderedDescending ? 44 : 0;
+		overlap = [self.currentTile.monthDate compare:[dates lastObject]] !=  NSOrderedDescending ? DAY_HEIGHT : 0;
 	
 	
 	float y = isNext ? self.currentTile.bounds.size.height - overlap : newTile.bounds.size.height * -1 + overlap +2;
 	
-	newTile.frame = CGRectMake(0, y, newTile.frame.size.width, newTile.frame.size.height);
+	newTile.frame = CGRectMakeWithSize(0, y *[TKScale factor], newTile.frame.size);
 	newTile.alpha = 0;
 	[self.tileBox addSubview:newTile];
 	
@@ -895,11 +904,11 @@ static NSNumberFormatter *numberFormatter = nil;
 	
 	
 	if(isNext){
-		self.currentTile.frame = CGRectMakeWithSize(0, -1 * self.currentTile.bounds.size.height + overlap + 2,  self.currentTile.frame.size);
-		newTile.frame = CGRectMake(0, 1, newTile.frame.size.width, newTile.frame.size.height);
+		self.currentTile.frame = CGRectMakeWithSize(0, [TKScale factor]*(-1 * CGRectGetHeight(self.currentTile.frame) + overlap + 2),  self.currentTile.frame.size);
+		newTile.frame = CGRectMakeWithSize(0, 1*[TKScale factor], newTile.frame.size);
 	}else{
-		newTile.frame = CGRectMake(0, 1, newTile.frame.size.width, newTile.frame.size.height);
-		self.currentTile.frame = CGRectMakeWithSize(0,  newTile.frame.size.height - overlap, self.currentTile.frame.size);
+		newTile.frame = CGRectMakeWithSize(0, 1*[TKScale factor], newTile.frame.size);
+		self.currentTile.frame = CGRectMakeWithSize(0, [TKScale factor]*(CGRectGetHeight(newTile.frame) - overlap), self.currentTile.frame.size);
 	}
 	
 	[self _updateSubviewFramesWithTile:newTile];
@@ -923,9 +932,9 @@ static NSNumberFormatter *numberFormatter = nil;
 - (UIView *) topBackground{
 	if(_topBackground) return _topBackground;
 	
-    UIView* header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, TOP_BAR_HEIGHT)];
+	UIView* header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, TOP_BAR_HEIGHT*[TKScale factor])];
     header.backgroundColor = [UIColor colorWithHex:0xf7f7f7];
-	UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 44, header.bounds.size.width, 1)];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, DAY_HEIGHT*[TKScale factor], header.bounds.size.width, 1*[TKScale factor])];
 	line.backgroundColor = [UIColor colorWithHex:0xdadada];
 	line.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	[header addSubview:line];
@@ -937,7 +946,7 @@ static NSNumberFormatter *numberFormatter = nil;
 - (UILabel *) monthYear{
 	if(_monthYear) return _monthYear;
     
-	_monthYear = [[UILabel alloc] initWithFrame:CGRectInset(CGRectMake(0, 0, VIEW_WIDTH, 36), 40, 6)];
+	_monthYear = [[UILabel alloc] initWithFrame:CGRectInset(CGRectMake(0, 0, VIEW_WIDTH*[TKScale factor], (36*[TKScale factor])), 40*[TKScale factor], 6*[TKScale factor])];
 	_monthYear.textAlignment = NSTextAlignmentCenter;
 	_monthYear.backgroundColor = [UIColor clearColor];
 	_monthYear.font = [UIFont systemFontOfSize:20];
@@ -996,7 +1005,7 @@ static NSNumberFormatter *numberFormatter = nil;
     
 	_leftArrow = [UIButton buttonWithType:UIButtonTypeCustom];
 	_leftArrow.tag = 0;
-	_leftArrow.frame = CGRectMake(0, 0, 52, 36);
+	_leftArrow.frame = CGRectMake(0, 0, 52*[TKScale factor], 36*[TKScale factor]);
 	_leftArrow.accessibilityLabel = @"Previous Month";
 	[_leftArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -1010,7 +1019,7 @@ static NSNumberFormatter *numberFormatter = nil;
     
 	_rightArrow = [UIButton buttonWithType:UIButtonTypeCustom];
 	_rightArrow.tag = 1;
-	_rightArrow.frame = CGRectMake(VIEW_WIDTH-52, 0, 52, 36);
+	_rightArrow.frame = CGRectMake((VIEW_WIDTH-52)*[TKScale factor], 0, 52*[TKScale factor], 36*[TKScale factor]);
 	_rightArrow.accessibilityLabel = @"Next Month";
 	[_rightArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -1023,14 +1032,14 @@ static NSNumberFormatter *numberFormatter = nil;
 	
 	CGFloat h = self.currentTile ? self.currentTile.frame.size.height : 100;
 	
-	_tileBox = [[UIView alloc] initWithFrame:CGRectMake(0, TOP_BAR_HEIGHT-1, VIEW_WIDTH, h)];
+	_tileBox = [[UIView alloc] initWithFrame:CGRectMake(0, (TOP_BAR_HEIGHT-1)*[TKScale factor], VIEW_WIDTH*[TKScale factor], h*[TKScale factor])];
 	_tileBox.clipsToBounds = YES;
 	return _tileBox;
 }
 - (UIView *) shadow{
 	if(_shadow) return _shadow;
 	
-	TKGradientView *grad  = [[TKGradientView alloc] initWithFrame:CGRectMake(0, 0, 100, self.frame.size.width)];
+	TKGradientView *grad  = [[TKGradientView alloc] initWithFrame:CGRectMake(0, 0, 100*[TKScale factor], CGRectGetWidth(self.frame))];
 	grad.colors = @[[UIColor colorWithWhite:0 alpha:0],[UIColor colorWithWhite:0 alpha:0.0],[UIColor colorWithWhite:0 alpha:0.1]];
 	_shadow = grad;
 	_shadow.userInteractionEnabled = NO;
@@ -1039,7 +1048,7 @@ static NSNumberFormatter *numberFormatter = nil;
 - (UIView *) dropshadow{
 	if(_dropshadow) return _dropshadow;
 	
-	TKGradientView *grad  = [[TKGradientView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 10)];
+	TKGradientView *grad  = [[TKGradientView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), 10*[TKScale factor])];
 	grad.backgroundColor = [UIColor clearColor];
 	grad.colors = @[[UIColor colorWithWhite:0 alpha:0.3],[UIColor colorWithWhite:0 alpha:0.0]];
 	_dropshadow = grad;
