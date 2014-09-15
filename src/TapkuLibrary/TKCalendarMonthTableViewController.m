@@ -33,6 +33,7 @@
 
 @implementation TKCalendarMonthTableViewController
 
+static NSString *CellIdentifier = @"TKMonthDetailCell";
 
 - (void) loadView{
 	[super loadView];
@@ -44,6 +45,7 @@
 		
 	
 	_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, y, CGRectGetWidth(self.view.bounds), height) style:UITableViewStylePlain];
+	[_tableView registerNib:[UINib nibWithNibName:CellIdentifier bundle:[NSBundle mainBundle]] forCellReuseIdentifier:CellIdentifier];
 	_tableView.delegate = self;
 	_tableView.dataSource = self;
 	_tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -61,7 +63,6 @@
     return 0;
 }
 - (TKMonthDetailCell *) tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *CellIdentifier = @"TKMonthDetailCell";
     TKMonthDetailCell *cell = (TKMonthDetailCell*)[tv dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
