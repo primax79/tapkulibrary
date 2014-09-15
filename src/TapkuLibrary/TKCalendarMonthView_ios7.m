@@ -39,6 +39,7 @@
 #import "UIImageView+TKCategory.h"
 #import "UIView+TKCategory.h"
 #import "TKScale.h"
+#import "TKCalendarCircleView.h"
 
 static UIColor *gradientColor;
 static UIColor *grayGradientColor;
@@ -74,7 +75,7 @@ static NSNumberFormatter *numberFormatter = nil;
 @property (nonatomic,strong) NSDate *monthDate;
 @property (nonatomic,strong) NSMutableArray *accessibleElements;
 
-@property (nonatomic,strong) UIImageView *selectedImageView;
+@property (nonatomic,strong) TKCalendarCircleView *selectedCircleView;
 @property (nonatomic,strong) UILabel *currentDay;
 @property (nonatomic,strong) UILabel *dot;
 @property (nonatomic,strong) NSArray *datesArray;
@@ -224,7 +225,6 @@ static NSNumberFormatter *numberFormatter = nil;
 	return @[firstDate,lastDate];
 }
 
-
 - (instancetype) initWithMonth:(NSDate*)date marks:(NSArray*)markArray startDayOnSunday:(BOOL)sunday timeZone:(NSTimeZone*)timeZone{
 	if(!(self=[super initWithFrame:CGRectZero])) return nil;
     
@@ -270,8 +270,8 @@ static NSNumberFormatter *numberFormatter = nil;
 	
 	self.frame = CGRectMake(0, 1.0*[TKScale factor], VIEW_WIDTH*[TKScale factor], (h+1)*[TKScale factor]);
 	
-	[self.selectedImageView addSubview:self.currentDay];
-	[self.selectedImageView addSubview:self.dot];
+	[self.selectedCircleView addSubview:self.currentDay];
+	[self.selectedCircleView addSubview:self.dot];
 	self.multipleTouchEnabled = NO;
     
     
@@ -327,12 +327,26 @@ static NSNumberFormatter *numberFormatter = nil;
 		NSInteger index = today +  pre-1;
         CGRect r = [self rectForCellAtIndex:index];
         r.origin.y -= 6*[TKScale factor];
-        
+		
         UIColor* tintColour = self.tintColor;
-        UIImage* bgImg = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Today Tile.png")] withTint:tintColour];
+		
+
+		
+//		UIView *bgView = [[TKCalendarCircleView alloc] initWithColor:tintColour];
+//		UIImage* bgImg = [TKCalendarMonthView_ios7 image:[UIImage imageNamedTK:@"calendar-ios7/Month Calendar Today Tile"] withTint:tintColour];
+		///[TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Today Tile.png")] withTint:tintColour];
 		r.size.width = DAY_WIDTH*[TKScale factor]; //bgImg.size.width;
 		r.size.height = DAY_HEIGHT*[TKScale factor]; //bgImg.size.height;
-		[bgImg drawInRect:r];
+//		r.size.width = bgImg.size.width;
+//		r.size.height = bgImg.size.height;
+//		[bgImg drawInRect:r];
+//		[bgView setFrame:r];
+//		[[bgView layer] renderInContext:context];
+//		[self addSubview:bgView];
+		//This draws the "Today" circle
+		UIBezierPath *circle = [UIBezierPath bezierPathWithArcCenter:CGPointMake(CGRectGetMidX(r), CGRectGetMidY(r)) radius:17*[TKScale factor] startAngle:0 endAngle:(2 * M_PI) clockwise:YES];
+		[tintColour setFill];
+		[circle fill];
 	}
 	
 	
@@ -412,16 +426,14 @@ static NSNumberFormatter *numberFormatter = nil;
 	
 	if(day == today){
         UIColor* tintColour = self.tintColor;
-		self.selectedImageView.image = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Today Selected Tile.png")] withTint:tintColour];
+		self.selectedCircleView.circleColor = tintColour;
 		markWasOnToday = YES;
 		
 	}else if(markWasOnToday){
-		NSString *path = TKBUNDLE(@"calendar-ios7/Month Calendar Date Tile Selected.png");
-		self.selectedImageView.image = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:path] withTint:[UIColor blackColor]];
+		self.selectedCircleView.circleColor = [UIColor blackColor];
 		markWasOnToday = NO;
 	} else {
-        self.selectedImageView.image = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Date Tile Selected.png")] withTint:[UIColor blackColor]];
-        
+		self.selectedCircleView.circleColor = [UIColor blackColor];
     }
 	
     
@@ -431,7 +443,7 @@ static NSNumberFormatter *numberFormatter = nil;
 		
 		if([self.marks[row * 7 + column] boolValue]){
 			hasDot = YES;
-			[self.selectedImageView addSubview:self.dot];
+			[self.selectedCircleView addSubview:self.dot];
 		}else
 			[self.dot removeFromSuperview];
 		
@@ -442,9 +454,9 @@ static NSNumberFormatter *numberFormatter = nil;
 		row--;
 	}
     
-	self.selectedImageView.frame = CGRectMakeWithSize((column*DAY_WIDTH*[TKScale factor]-1), (row*DAY_HEIGHT*[TKScale factor]-1), self.selectedImageView.frame.size);
-	[self addSubview:self.selectedImageView];
+	self.selectedCircleView.frame = CGRectMakeWithSize((column*DAY_WIDTH*[TKScale factor]-1), (row*DAY_HEIGHT*[TKScale factor]-1), self.selectedCircleView.frame.size);
 	
+	[self addSubview:self.selectedCircleView];
 	
 	return hasDot;
 	
@@ -509,30 +521,27 @@ static NSNumberFormatter *numberFormatter = nil;
 	
 	if(portion != 1){
 		markWasOnToday = YES;
-		self.selectedImageView.image = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Today Selected Tile.png")] withTint:[UIColor whiteColor]];
-		self.selectedImageView.alpha = 0.5;
-		self.selectedImageView.backgroundColor = [UIColor clearColor];
+		self.selectedCircleView.circleColor = [UIColor whiteColor];
+		self.selectedCircleView.alpha = 0.1;
 		self.currentDay.hidden = YES;
 		self.dot.hidden = YES;
 		
 	}else if(portion==1 && day == today){
         UIColor* tintColour = self.tintColor;
-		self.selectedImageView.image = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Today Selected Tile.png")] withTint:tintColour];
+		self.selectedCircleView.circleColor = tintColour;
 		markWasOnToday = YES;
 	}else if(markWasOnToday){
-		NSString *path = TKBUNDLE(@"calendar-ios7/Month Calendar Date Tile Selected.png");
-		self.selectedImageView.image = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:path] withTint:[UIColor blackColor]];
+		self.selectedCircleView.circleColor = [UIColor blackColor];
 		markWasOnToday = NO;
 	} else {
-        self.selectedImageView.image = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar-ios7/Month Calendar Date Tile Selected.png")] withTint:[UIColor blackColor]];
+		self.selectedCircleView.circleColor = [UIColor blackColor];
     }
-	
-	[self addSubview:self.selectedImageView];
+	[self addSubview:self.selectedCircleView];
 	self.currentDay.text = [NSString stringWithFormat:@"%ld",(long)day];
 	
 	if (self.marks.count > 0) {
 		if([self.marks[row * 7 + column] boolValue])
-			[self.selectedImageView addSubview:self.dot];
+			[self.selectedCircleView addSubview:self.dot];
 		else
 			[self.dot removeFromSuperview];
 	}else{
@@ -542,7 +551,7 @@ static NSNumberFormatter *numberFormatter = nil;
     
 	
 	
-	self.selectedImageView.frame = CGRectMakeWithSize((column*DAY_WIDTH*[TKScale factor]-1), (row*DAY_HEIGHT*[TKScale factor]-1), self.selectedImageView.frame.size);
+	self.selectedCircleView.frame = CGRectMakeWithSize((column*DAY_WIDTH*[TKScale factor]-1), (row*DAY_HEIGHT*[TKScale factor]-1), self.selectedCircleView.frame.size);
 
 	
 	if(day == selectedDay && selectedPortion == portion) return;
@@ -576,7 +585,7 @@ static NSNumberFormatter *numberFormatter = nil;
 - (UILabel *) currentDay{
 	if(_currentDay) return _currentDay;
     
-	CGRect r = self.selectedImageView.bounds;
+	CGRect r = self.selectedCircleView.bounds;
 	r.origin.y -= 1;
 	_currentDay = [[UILabel alloc] initWithFrame:r];
 	_currentDay.text = @"1";
@@ -589,7 +598,7 @@ static NSNumberFormatter *numberFormatter = nil;
 - (UILabel *) dot{
 	if(_dot) return _dot;
 	
-	CGRect r = self.selectedImageView.bounds;
+	CGRect r = self.selectedCircleView.bounds;
 	r.origin.y += (30*[TKScale factor]);
 	r.size.height -= (31*[TKScale factor]);
 	_dot = [[UILabel alloc] initWithFrame:r];
@@ -600,17 +609,13 @@ static NSNumberFormatter *numberFormatter = nil;
 	_dot.textAlignment = NSTextAlignmentCenter;
 	return _dot;
 }
-- (UIImageView *) selectedImageView{
-	if(_selectedImageView) return _selectedImageView;
+- (TKCalendarCircleView*) selectedCircleView{
+	if(_selectedCircleView) return _selectedCircleView;
 	
-	NSString *path = TKBUNDLE(@"calendar-ios7/Month Calendar Today Selected Tile.png");
-    UIColor* tintColour = self.tintColor;
-	UIImage *img = [TKCalendarMonthView_ios7 image:[UIImage imageWithContentsOfFile:path] withTint:tintColour];
-	_selectedImageView = [[UIImageView alloc] initWithImage:img];
-	_selectedImageView.layer.magnificationFilter = kCAFilterNearest;
-	_selectedImageView.frame = CGRectMake(0, 0, DAY_WIDTH*[TKScale factor], DAY_HEIGHT*[TKScale factor]);
-	//	_selectedImageView.frame = CGRectMake(0, 0, 47*[TKScale factor], 45*[TKScale factor]);
-	return _selectedImageView;
+	UIColor* tintColour = self.tintColor;
+	_selectedCircleView = [[TKCalendarCircleView alloc] initWithColor:tintColour];
+	_selectedCircleView.frame = CGRectMake(0, 0, DAY_WIDTH*[TKScale factor], DAY_HEIGHT*[TKScale factor]);
+	return _selectedCircleView;
 }
 
 @end
