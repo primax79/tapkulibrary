@@ -39,11 +39,11 @@
 
 + (UIImage*) imageNamedTK:(NSString*)str{
 	
-	CGFloat s = 1.0f;
+	NSInteger s = 1;
 	if([[UIScreen mainScreen] respondsToSelector:@selector(scale)]){
-		s = [[UIScreen mainScreen] scale];
+		s = (NSInteger)[[UIScreen mainScreen] scale];
 	}
-	NSString *path = [NSString stringWithFormat:@"%@%@.png",str,s > 1 ? @"@2x":@""];
+	NSString *path = [NSString stringWithFormat:@"%@%@.png",str,s > 1 ? [NSString stringWithFormat:@"@%ldx",(long)s]:@""];
 	return [UIImage imageWithCGImage:[UIImage imageWithContentsOfFile:TKBUNDLE(path)].CGImage scale:s orientation:UIImageOrientationUp];
 
 }
