@@ -38,6 +38,7 @@
 #import "UIColor+TKCategory.h"
 #import "UIImageView+TKCategory.h"
 #import "UIView+TKCategory.h"
+#import "TKScale.h"
 
 static UIColor *gradientColor;
 static UIColor *grayGradientColor;
@@ -49,6 +50,8 @@ static UIImage *tileImage;
 #define DOT_FONT_SIZE 18.0f
 #define DATE_FONT_SIZE 24.0f
 #define VIEW_WIDTH 320.0f
+#define DAY_HEIGHT 44.0f
+#define DAY_WIDTH 46.0f
 
 #pragma mark - TKCalendarMonthTiles
 @interface TKCalendarMonthTiles : UIView {
@@ -109,7 +112,7 @@ static UIImage *tileImage;
 		element.accessibilityLabel = [formatter stringForObjectValue:day];
 		
 		CGRect r = [self convertRect:[self rectForCellAtIndex:i] toView:self.window];
-		r.origin.y -= 6;
+		r.origin.y -= 6* [TKScale factor];
 		
 		element.accessibilityFrame = r;
 		element.accessibilityTraits = UIAccessibilityTraitButton;
@@ -238,7 +241,7 @@ static UIImage *tileImage;
 	self.datesArray = dates;
 	NSUInteger numberOfDaysBetween = [dates[0] daysBetweenDate:[dates lastObject]];
 	NSUInteger scale = (numberOfDaysBetween / 7) + 1;
-	CGFloat h = 44.0f * scale;
+	CGFloat h = DAY_HEIGHT * scale; //height of single cell * number of rows in order to avoid exceeding pixels at the bottom
 	
 	
 	NSDateComponents *todayInfo = [[NSDate date] dateComponentsWithTimeZone:self.timeZone];
@@ -258,8 +261,7 @@ static UIImage *tileImage;
 		lastOfPrev = preDayCnt;
 	}
 	
-	
-	self.frame = CGRectMake(0, 1.0, VIEW_WIDTH, h+1);
+	self.frame = CGRectMake(0, 1.0*[TKScale factor], VIEW_WIDTH*[TKScale factor], (h+1)*[TKScale factor]);
 	
 	[self.selectedImageView addSubview:self.currentDay];
 	[self.selectedImageView addSubview:self.dot];
@@ -279,12 +281,12 @@ static UIImage *tileImage;
 	NSInteger row = index / 7;
 	NSInteger col = index % 7;
 	
-	return CGRectMake(col*46-1, row*44+6, 46, 44);
+	return CGRectMake((col*DAY_WIDTH*[TKScale factor]-1), (row*DAY_HEIGHT*[TKScale factor]+6), DAY_WIDTH*[TKScale factor], DAY_HEIGHT*[TKScale factor]);
 }
 - (void) drawTileInRect:(CGRect)r day:(NSInteger)day mark:(BOOL)mark font:(UIFont*)f1 font2:(UIFont*)f2 context:(CGContextRef)context{
 
     NSString *str = [numberFormatter stringFromNumber:@(day)];
-	r.size.height -= 2;
+	r.size.height -= 2*[TKScale factor];
 	
 	CGContextSetPatternPhase(context, CGSizeMake(r.origin.x, r.origin.y - 2));
 
@@ -295,8 +297,8 @@ static UIImage *tileImage;
 		  alignment: NSTextAlignmentCenter];
 	
 	if(mark){
-		r.size.height = 10;
-		r.origin.y += 19;
+		r.size.height = 10*[TKScale factor];
+		r.origin.y += 19*[TKScale factor];
 		
 		[@"•" drawInRect: r
 				withFont: f2
@@ -311,7 +313,7 @@ static UIImage *tileImage;
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	UIImage *tile = tileImage;
-	CGRect r = CGRectMake(-1, 0, 46, 44);
+	CGRect r = CGRectMake(-1, 0, DAY_WIDTH*[TKScale factor], DAY_HEIGHT*[TKScale factor]);
 	
 	CGContextSetInterpolationQuality(context, kCGInterpolationNone);
 	CGContextDrawTiledImage(context, r, tile.CGImage);
@@ -443,7 +445,7 @@ static UIImage *tileImage;
 		row--;
 	}
 
-	self.selectedImageView.frame = CGRectMakeWithSize((column*46)-1, (row*44)-1, self.selectedImageView.frame.size);
+	self.selectedImageView.frame = CGRectMakeWithSize((column*DAY_WIDTH*[TKScale factor]-1), (row*DAY_HEIGHT*[TKScale factor]-1), self.selectedImageView.frame.size);
 	[self addSubview:self.selectedImageView];
 	
 	
@@ -482,10 +484,10 @@ static UIImage *tileImage;
 	if(p.x > CGRectGetWidth(self.bounds) || p.x < 0) return;
 	if(p.y > CGRectGetHeight(self.bounds) || p.y < 0) return;
 	
-	NSInteger column = p.x / 46, row = p.y / 44;
+	NSInteger column = p.x / (DAY_WIDTH*[TKScale factor]), row = p.y / (DAY_HEIGHT*[TKScale factor]);
 	NSInteger day = 1, portion = 0;
 	
-	if(row == (int) (CGRectGetHeight(self.bounds) / 44)) row --;
+	if(row == (int) (CGRectGetHeight(self.bounds) / (DAY_HEIGHT*[TKScale factor]))) row --;
 	
 	NSInteger fir = firstWeekday - 1;
 	if(!startOnSunday && fir == 0) fir = 7;
@@ -545,7 +547,7 @@ static UIImage *tileImage;
 
 	
 	
-	self.selectedImageView.frame = CGRectMakeWithSize((column*46)-1, (row*44)-1, self.selectedImageView.frame.size);
+	self.selectedImageView.frame = CGRectMakeWithSize((column*DAY_WIDTH*[TKScale factor]-1), (row*DAY_HEIGHT*[TKScale factor]-1), self.selectedImageView.frame.size);
 	
 	if(day == selectedDay && selectedPortion == portion) return;
 	
@@ -594,8 +596,8 @@ static UIImage *tileImage;
 	if(_dot) return _dot;
 	
 	CGRect r = self.selectedImageView.bounds;
-	r.origin.y += 30;
-	r.size.height -= 31;
+	r.origin.y += (30*[TKScale factor]);
+	r.size.height -= (31*[TKScale factor]);
 	_dot = [[UILabel alloc] initWithFrame:r];
 	_dot.text = @"•";
 	_dot.textColor = [UIColor whiteColor];
@@ -613,7 +615,7 @@ static UIImage *tileImage;
 	UIImage *img = [[UIImage imageWithContentsOfFile:path] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
 	_selectedImageView = [[UIImageView alloc] initWithImage:img];
 	_selectedImageView.layer.magnificationFilter = kCAFilterNearest;
-	_selectedImageView.frame = CGRectMake(0, 0, 47, 45);
+	_selectedImageView.frame = CGRectMake(0, 0, 47*[TKScale factor], 45*[TKScale factor]);
 	return _selectedImageView;
 }
 
@@ -648,7 +650,7 @@ static UIImage *tileImage;
     }
 }
 - (instancetype) initWithSundayAsFirst:(BOOL)s timeZone:(NSTimeZone*)timeZone{
-	if (!(self = [super initWithFrame:CGRectMake(0, 0, VIEW_WIDTH, VIEW_WIDTH)])) return nil;
+	if (!(self = [super initWithFrame:CGRectMake(0, 0, VIEW_WIDTH*[TKScale factor],VIEW_WIDTH*[TKScale factor] )])) return nil;
 	self.backgroundColor = [UIColor colorWithHex:0xaaaeb6];
 	self.timeZone = timeZone;
 	self.sunday = s;
@@ -699,7 +701,7 @@ static UIImage *tileImage;
 	
 	NSInteger i = 0;
 	for(NSString *s in ar){
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(46*i + (i==0?0:-1), 30, 45, 15)];
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(DAY_WIDTH*[TKScale factor]*i + (i==0?0:-1), 30*[TKScale factor], 45*[TKScale factor], 15*[TKScale factor])];
 		[self addSubview:label];
         
         // Added Accessibility Labels
@@ -771,14 +773,17 @@ static UIImage *tileImage;
 	
 }
 - (CGRect) _calculatedFrame{
-	return CGRectMakeWithPoint(self.frame.origin, VIEW_WIDTH, CGRectGetMaxY(self.tileBox.frame));
+	//The frame of the TKCalendarMonthView
+	return CGRectMakeWithPoint(self.frame.origin, VIEW_WIDTH*[TKScale factor], CGRectGetMaxY(self.tileBox.frame));
 }
 - (CGRect) _calculatedDropShadowFrame{
-	return CGRectMake(0, CGRectGetMaxY(self.tileBox.frame), CGRectGetWidth(self.bounds), 6);
+	//The drop frame of the calendar month view to the below table view
+	return CGRectMake(0, CGRectGetMaxY(self.tileBox.frame), CGRectGetWidth(self.bounds), 6*[TKScale factor]);
 }
 - (void) _updateSubviewFramesWithTile:(UIView*)tile{
-	self.tileBox.frame = CGRectMake(0, TOP_BAR_HEIGHT-1,VIEW_WIDTH, CGRectGetHeight(tile.frame));
-	self.frame = CGRectMakeWithPoint(self.frame.origin, VIEW_WIDTH, CGRectGetMaxY(self.tileBox.frame));
+	//The tileBox.frame size is not calculated, only the origin (the size is calculated elsewhere)
+	self.tileBox.frame = CGRectMake(0, (TOP_BAR_HEIGHT-1)*[TKScale factor],VIEW_WIDTH*[TKScale factor], CGRectGetHeight(tile.frame));
+	self.frame = CGRectMakeWithPoint(self.frame.origin, VIEW_WIDTH*[TKScale factor], CGRectGetMaxY(self.tileBox.frame));
 	self.shadow.frame = self.tileBox.frame;
 	self.dropshadow.frame = [self _calculatedDropShadowFrame];
 }
@@ -872,14 +877,14 @@ static UIImage *tileImage;
 	NSInteger overlap =  0;
 	
 	if(isNext)
-		overlap = [newTile.monthDate isEqualToDate:dates[0]] ? 0 : 44;
+		overlap = [newTile.monthDate isEqualToDate:dates[0]] ? 0 : DAY_HEIGHT;
 	else
-		overlap = [self.currentTile.monthDate compare:[dates lastObject]] !=  NSOrderedDescending ? 44 : 0;
+		overlap = [self.currentTile.monthDate compare:[dates lastObject]] !=  NSOrderedDescending ? DAY_HEIGHT : 0;
 	
 	
 	float y = isNext ? CGRectGetHeight(self.currentTile.frame) - overlap : CGRectGetHeight(newTile.frame) * -1 + overlap +2;
 	
-	newTile.frame = CGRectMakeWithSize(0, y, newTile.frame.size);
+	newTile.frame = CGRectMakeWithSize(0, y *[TKScale factor], newTile.frame.size);
 	newTile.alpha = 0;
 	[self.tileBox addSubview:newTile];
 	
@@ -904,11 +909,11 @@ static UIImage *tileImage;
 	
 	
 	if(isNext){
-		self.currentTile.frame = CGRectMakeWithSize(0, -1 * CGRectGetHeight(self.currentTile.frame) + overlap + 2,  self.currentTile.frame.size);
-		newTile.frame = CGRectMakeWithSize(0, 1, newTile.frame.size);
+		self.currentTile.frame = CGRectMakeWithSize(0, [TKScale factor]*(-1 * CGRectGetHeight(self.currentTile.frame) + overlap + 2),  self.currentTile.frame.size);
+		newTile.frame = CGRectMakeWithSize(0, 1*[TKScale factor], newTile.frame.size);
 	}else{
-		newTile.frame = CGRectMakeWithSize(0, 1, newTile.frame.size);
-		self.currentTile.frame = CGRectMakeWithSize(0, CGRectGetHeight(newTile.frame) - overlap, self.currentTile.frame.size);
+		newTile.frame = CGRectMakeWithSize(0, 1*[TKScale factor], newTile.frame.size);
+		self.currentTile.frame = CGRectMakeWithSize(0, [TKScale factor]*(CGRectGetHeight(newTile.frame) - overlap), self.currentTile.frame.size);
 	}
 	
 	[self _updateSubviewFramesWithTile:newTile];
@@ -933,10 +938,10 @@ static UIImage *tileImage;
 	if(_topBackground) return _topBackground;
 	
 	
-	TKGradientView *gradient = [[TKGradientView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), TOP_BAR_HEIGHT)];
+	TKGradientView *gradient = [[TKGradientView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), TOP_BAR_HEIGHT*[TKScale factor])];
 	gradient.colors = @[[UIColor colorWithHex:0xf4f4f5],[UIColor colorWithHex:0xccccd1]];
 	gradient.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-	UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 44, CGRectGetWidth(gradient.frame), 1)];
+	UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, DAY_HEIGHT*[TKScale factor], CGRectGetWidth(gradient.frame), 1*[TKScale factor])];
 	line.backgroundColor = [UIColor colorWithHex:0xaaaeb6];
 	line.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	[gradient addSubview:line];
@@ -948,7 +953,7 @@ static UIImage *tileImage;
 - (UILabel *) monthYear{
 	if(_monthYear) return _monthYear;
 
-	_monthYear = [[UILabel alloc] initWithFrame:CGRectInset(CGRectMake(0, 0, VIEW_WIDTH, 36), 40, 6)];
+	_monthYear = [[UILabel alloc] initWithFrame:CGRectInset(CGRectMake(0, 0, VIEW_WIDTH*[TKScale factor], (36*[TKScale factor])), 40*[TKScale factor], 6*[TKScale factor])];
 	_monthYear.textAlignment = NSTextAlignmentCenter;
 	_monthYear.backgroundColor = [UIColor clearColor];
 	_monthYear.font = [UIFont boldSystemFontOfSize:22];
@@ -962,7 +967,7 @@ static UIImage *tileImage;
 
 	_leftArrow = [UIButton buttonWithType:UIButtonTypeCustom];
 	_leftArrow.tag = 0;
-	_leftArrow.frame = CGRectMake(0, 0, 52, 36);
+	_leftArrow.frame = CGRectMake(0, 0, 52*[TKScale factor], 36*[TKScale factor]);
 	_leftArrow.accessibilityLabel = @"Previous Month";
 	[_leftArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
 	[_leftArrow setImage:[UIImage imageNamedTK:@"calendar/calendar_left_arrow"] forState:0];
@@ -973,7 +978,7 @@ static UIImage *tileImage;
 
 	_rightArrow = [UIButton buttonWithType:UIButtonTypeCustom];
 	_rightArrow.tag = 1;
-	_rightArrow.frame = CGRectMake(VIEW_WIDTH-52, 0, 52, 36);
+	_rightArrow.frame = CGRectMake((VIEW_WIDTH-52)*[TKScale factor], 0, 52*[TKScale factor], 36*[TKScale factor]);
 	_rightArrow.accessibilityLabel = @"Next Month";
 	[_rightArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
 	[_rightArrow setImage:[UIImage imageNamedTK:@"calendar/calendar_right_arrow"] forState:0];
@@ -984,14 +989,14 @@ static UIImage *tileImage;
 	
 	CGFloat h = self.currentTile ? CGRectGetHeight(self.currentTile.frame) : 100;
 	
-	_tileBox = [[UIView alloc] initWithFrame:CGRectMake(0, TOP_BAR_HEIGHT-1, VIEW_WIDTH, h)];
+	_tileBox = [[UIView alloc] initWithFrame:CGRectMake(0, (TOP_BAR_HEIGHT-1)*[TKScale factor], VIEW_WIDTH*[TKScale factor], h*[TKScale factor])];
 	_tileBox.clipsToBounds = YES;
 	return _tileBox;
 }
 - (UIView *) shadow{
 	if(_shadow) return _shadow;
 	
-	TKGradientView *grad  = [[TKGradientView alloc] initWithFrame:CGRectMake(0, 0, 100, CGRectGetWidth(self.frame))];
+	TKGradientView *grad  = [[TKGradientView alloc] initWithFrame:CGRectMake(0, 0, 100*[TKScale factor], CGRectGetWidth(self.frame))];
 	grad.colors = @[[UIColor colorWithWhite:0 alpha:0],[UIColor colorWithWhite:0 alpha:0.0],[UIColor colorWithWhite:0 alpha:0.1]];
 	_shadow = grad;
 	_shadow.userInteractionEnabled = NO;
@@ -1000,7 +1005,7 @@ static UIImage *tileImage;
 - (UIView *) dropshadow{
 	if(_dropshadow) return _dropshadow;
 	
-	TKGradientView *grad  = [[TKGradientView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), 10)];
+	TKGradientView *grad  = [[TKGradientView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), 10*[TKScale factor])];
 	grad.backgroundColor = [UIColor clearColor];
 	grad.colors = @[[UIColor colorWithWhite:0 alpha:0.3],[UIColor colorWithWhite:0 alpha:0.0]];
 	_dropshadow = grad;
