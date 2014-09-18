@@ -40,7 +40,7 @@ static NSString *CellIdentifier = @"TKMonthDetailCell";
 	self.tableView.backgroundColor = [UIColor whiteColor];
 	
 	float y,height;
-	y = CGRectGetMaxY(self.monthView.frame);
+	y = CGRectGetMaxY(self.monthView.frame) - self.topLayoutGuide.length;
 	height = CGRectGetHeight(self.view.frame) - y;
 		
 	
@@ -89,13 +89,13 @@ static NSString *CellIdentifier = @"TKMonthDetailCell";
 
 	
 	CGFloat y = CGRectGetMaxY(self.monthView.frame);
-	self.tableView.frame = CGRectMake(CGRectGetMinX(self.tableView.frame), y, CGRectGetWidth(self.tableView.frame), CGRectGetHeight(self.view.frame) - y);
+	self.tableView.frame = CGRectMake(CGRectGetMinX(self.tableView.frame), y, CGRectGetWidth(self.tableView.frame) -self.topLayoutGuide.length, CGRectGetHeight(self.view.frame) - y);
 	
 	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
 		//FIX for table view being shifted ~60px to the bottom. http://stackoverflow.com/questions/18388429/uitableview-is-starting-with-an-offset-in-ios-7
 		//This has something to do with iOS7+ automatically adjusting scrollview insets for table views
 		//Note: setting [self setAutomaticallyAdjustsScrollViewInsets:NO]; in loadView: does not work
-		self.tableView.contentInset = UIEdgeInsetsMake(-self.topLayoutGuide.length, 0, 0, 0);
+		self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 	}
 	
 	if(animated) [UIView commitAnimations];
