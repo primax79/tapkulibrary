@@ -150,6 +150,9 @@
 	[self addSubview:self.horizontalScrollView];
 	
 	
+	UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressOnScrollView:)];
+	[self.horizontalScrollView addGestureRecognizer:longPressRecognizer];
+	
 	info.day -= 1;
 	
 	for(NSInteger i=0;i<3;i++){
@@ -240,6 +243,21 @@
 - (void) scrollViewWasTapped:(UITapGestureRecognizer*)gesture{
 	if(self.delegate && [self.delegate respondsToSelector:@selector(calendarDayTimelineView:eventViewWasSelected:)])
 		[self.delegate calendarDayTimelineView:self eventViewWasSelected:(TKCalendarDayEventView*)gesture.view];
+}
+- (void) longPressOnScrollView:(UILongPressGestureRecognizer*)sender
+{
+	TKTimelineView *view = [self _timelineAtIndex:1];
+	CGPoint tappedPoint = [sender locationInView:self.pages[1]];
+	NSInteger hourStart = (tappedPoint.y - VERTICAL_INSET)/(VERTICAL_DIFF);
+	CGFloat hourStartPosition = hourStart * VERTICAL_DIFF + VERTICAL_INSET;
+	NSInteger minuteStart = ((tappedPoint.y -hourStartPosition) * 60.0)/VERTICAL_DIFF;
+	minuteStart = round(minuteStart/5) * 5;
+	NSDateComponents *comps = [view.date dateComponentsWithTimeZone:self.calendar.timeZone];
+	[comps setHour:hourStart];
+	[comps setMinute:minuteStart];
+	NSDate *eventDate = [NSDate dateWithDateComponents:comps];
+	if(self.delegate && [self.delegate respondsToSelector:@selector(calendarDayTimelineView:didReceiveLongPressAtDate:)])
+		[self.delegate calendarDayTimelineView:self didReceiveLongPressAtDate:eventDate];
 }
 
 
