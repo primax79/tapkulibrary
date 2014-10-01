@@ -56,7 +56,7 @@
 	return self;
 }
 - (instancetype) initWithCoder:(NSCoder *)decoder {
-    if(!(self=[super initWithCoder:decoder])) return nil;
+    if(!(self=[self initWithCoder:decoder])) return nil;
 	self.timeZone = [NSTimeZone defaultTimeZone];
 	self.sundayFirst = YES;
     return self;
