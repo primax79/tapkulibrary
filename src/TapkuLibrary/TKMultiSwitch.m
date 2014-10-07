@@ -39,7 +39,7 @@
 @property (nonatomic,strong) NSArray *labels;
 @property (nonatomic,assign) CGFloat offsetFromCenter;
 @property (nonatomic,assign) BOOL needsReadjustment;
-@property (nonatomic,strong) UIPanGestureRecognizer *panGesture;
+
 
 @end
 
@@ -50,15 +50,15 @@
 #define UP_SCALE (CGRectGetHeight(self.frame) / (CGRectGetHeight(self.frame) - self.selectionInset*2))
 #define SCALE_UP CGScale(UP_SCALE, UP_SCALE)
 
-- (id) init{
+- (instancetype) init{
 	self = [self initWithItems:@[@""]];
 	return self;
 }
-- (id) initWithFrame:(CGRect)frame{
+- (instancetype) initWithFrame:(CGRect)frame{
 	self = [self initWithItems:@[@""]];
     return self;
 }
-- (id) initWithItems:(NSArray*)items{
+- (instancetype) initWithItems:(NSArray*)items{
 	CGFloat height = 40;
 	if(!(self=[super initWithFrame:CGRectMake(10, 6, 320-20, height)])) return nil;
 	
@@ -97,20 +97,18 @@
 	
 	self.multipleTouchEnabled = NO;
 	
-	UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
-	pan.delegate = self;
-	[self addGestureRecognizer:pan];
+	self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+	self.panGesture.delegate = self;
+	[self addGestureRecognizer:self.panGesture];
 	
-	self.panGesture = pan;
+	self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+	self.tapGesture.delegate = self;
+	[self addGestureRecognizer:self.tapGesture];
 	
-	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
-	tap.delegate = self;
-	[self addGestureRecognizer:tap];
-	
-	//	UILongPressGestureRecognizer *longtap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longtap:)];
-	//	longtap.minimumPressDuration = 0.25;
-	//	longtap.delegate = self;
-	//	[self addGestureRecognizer:longtap];
+	self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longtap:)];
+	self.longPressGesture.minimumPressDuration = 0.25;
+	self.longPressGesture.delegate = self;
+	[self addGestureRecognizer:self.longPressGesture];
 	
 	self.offsetFromCenter = -1;
 	_indexOfSelectedItem = 0;
@@ -198,9 +196,7 @@
 	CGPoint point = [press locationInView:self];
 	CGFloat per = CGRectGetWidth(self.frame) / self.labels.count;
 	NSInteger index = point.x / per;
-	
-	TKLog(@"== %d",press.state);
-	
+		
 	if(press.began){
 		
 		[UIView beginAnimations:nil context:nil];
@@ -348,20 +344,14 @@
 	NSInteger i = 0;
 	for(UILabel *label in self.labels){
 		
-		
 		if(self.style == TKMultiSwitchStyleFilled){
 			[UIView transitionWithView:label duration:0.3 options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionBeginFromCurrentState animations:^{
 				label.textColor = i == index ? self.selectedTextColor : self.textColor;
 				label.alpha = 1;
 			} completion:nil];
-			
 		}else{
 			label.alpha = i == index ? 1 : UNSELECTED_ALPHA;
-			
 		}
-		
-		
-		
 		i++;
 	}
 	[UIView commitAnimations];
@@ -372,12 +362,12 @@
 	
 }
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+	if(self.longPressGesture == gestureRecognizer && self.panGesture == otherGestureRecognizer)
+		return YES;
 	if([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]] || [otherGestureRecognizer isKindOfClass:[UITapGestureRecognizer class]])
 		return NO;
-	
 	if(gestureRecognizer == self.panGesture || [otherGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]])
 		return NO;
-	
 	return YES;
 }
 
