@@ -246,7 +246,7 @@
 }
 - (void) longPressOnScrollView:(UILongPressGestureRecognizer*)sender
 {
-	if (sender.state == UIGestureRecognizerStateEnded) {
+	if (sender.state == UIGestureRecognizerStateBegan) {
 		TKTimelineView *view = [self _timelineAtIndex:1];
 		CGPoint tappedPoint = [sender locationInView:self.pages[1]];
 		NSInteger hourStart = (tappedPoint.y - VERTICAL_INSET)/(VERTICAL_DIFF);
