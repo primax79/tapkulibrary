@@ -31,6 +31,8 @@
 
 #import "CalendarMonthViewController.h"
 
+static NSString *CellIdentifier = @"TKMonthDetailCell";
+
 #pragma mark - CalendarMonthViewController
 @implementation CalendarMonthViewController
 
@@ -76,8 +78,7 @@
 	return [ar count];
 }
 - (TKMonthDetailCell *) tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *CellIdentifier = @"TKMonthDetailCell";
-    TKMonthDetailCell *cell = (TKMonthDetailCell*)[tv dequeueReusableCellWithIdentifier:CellIdentifier];
+    TKMonthDetailCell *cell = [tv dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = (TKMonthDetailCell*)[super tableView:tv cellForRowAtIndexPath:indexPath];
     }
@@ -86,8 +87,8 @@
     cell.titleLabel.text =  ar[indexPath.row];
     NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
     [timeFormat setDateFormat:@"hh:mm"];
-    cell.timeLabel.text = [NSString stringWithFormat:@"%@", [timeFormat stringFromDate:[self.monthView dateSelected]]] ;
-	
+    cell.timeStartLabel.text = [NSString stringWithFormat:@"%@", [timeFormat stringFromDate:[self.monthView dateSelected]]];
+	cell.timeEndLabel.text = [NSString stringWithFormat:@"%@", [timeFormat stringFromDate:[[self.monthView dateSelected] dateByAddingTimeInterval:60*60]]];
     return cell;
 }
 

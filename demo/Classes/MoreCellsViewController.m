@@ -96,7 +96,7 @@
 		case 3:
 			cell = self.textFieldCell;
 			break;
-        case 3:
+        case 4:
             cell = self.textLabelsCell;
             break;
 		default:
