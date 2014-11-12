@@ -45,7 +45,9 @@ static NSString *CellIdentifier = @"TKMonthDetailCell";
 		
 	
 	_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, y, CGRectGetWidth(self.view.bounds), height) style:UITableViewStylePlain];
-	[_tableView registerNib:[UINib nibWithNibName:CellIdentifier bundle:[NSBundle mainBundle]] forCellReuseIdentifier:CellIdentifier];
+	NSBundle *TKBundle = [NSBundle bundleWithURL:[[NSBundle mainBundle]
+												  URLForResource:@"TapkuLibrary" withExtension:@"bundle"]];
+	[_tableView registerNib:[UINib nibWithNibName:@"TKMonthDetailCell" bundle:TKBundle] forCellReuseIdentifier:CellIdentifier];
 	_tableView.delegate = self;
 	_tableView.dataSource = self;
 	_tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
