@@ -36,6 +36,20 @@
 
 #pragma mark - TKCalendarDayEventView
 @implementation TKCalendarDayEventView
+@synthesize bgColor = _bgColor;
+@synthesize  txtColor = _txtColor;
+
+-(UIColor *)txtColor{
+    if (!_txtColor)
+        return [UIColor colorWithHex:0x1badf8];
+    return _txtColor;
+}
+
+-(UIColor *)bgColor{
+    if (!_bgColor)
+        return [UIColor colorWithHex:0x1badf8];
+    return _bgColor;
+}
 
 #pragma mark Init & Friends
 + (TKCalendarDayEventView*) eventView{
@@ -63,9 +77,21 @@
     [self _setupView];
 	return self;
 }
+
+-(void)setBgColor:(UIColor *)bgColor{
+    _bgColor = bgColor;
+    self.backgroundColor =[bgColor colorWithAlphaComponent:0.2];
+}
+
+-(void)setTxtColor:(UIColor *)txtColor{
+    _txtColor = txtColor;
+    self.locationLabel.textColor = txtColor;
+    self.edgeView.backgroundColor = txtColor;
+}
 - (void) _setupView{
 	
 	self.alpha = 1;
+    
 
 	
 	CGRect r = CGRectInset(self.bounds, 5, 22);
@@ -76,7 +102,7 @@
 	self.titleLabel.numberOfLines = 2;
 	self.titleLabel.backgroundColor = [UIColor clearColor];
 	self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-	self.titleLabel.textColor = [UIColor colorWithHex:0x1a719e];
+	self.titleLabel.textColor = self.txtColor;
 	self.titleLabel.font = [UIFont boldSystemFontOfSize:12];
 	[self addSubview:self.titleLabel];
 
@@ -88,16 +114,16 @@
 	self.locationLabel.numberOfLines = 2;
 	self.locationLabel.backgroundColor = [UIColor clearColor];
 	self.locationLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-	self.locationLabel.textColor = [UIColor colorWithHex:0x1a719e];
+    self.locationLabel.textColor = self.txtColor;
 	self.locationLabel.font = [UIFont systemFontOfSize:12];
 	[self addSubview:self.locationLabel];
 	
 	self.edgeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGRectGetHeight(self.frame))];
-	self.edgeView.backgroundColor = [UIColor colorWithHex:0x1badf8];
+	self.edgeView.backgroundColor = self.txtColor;
 	self.edgeView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 	[self addSubview:self.edgeView];
 	
-	self.backgroundColor = [UIColor colorWithHex:0x72c8f3 alpha:0.2];
+	self.backgroundColor = [UIColor colorWithHex:self.backgroundColor alpha:0.2];
 	
 }
 
@@ -122,7 +148,7 @@
 	self.titleLabel.frame = r;
 	[self.titleLabel sizeToFit];
 	
-	
+
 	
 	hh = blockHeight > 200 ? (FONT_SIZE+2.0) * 2 : FONT_SIZE+2;
 	r = CGRectInset(self.bounds, 5, 5);

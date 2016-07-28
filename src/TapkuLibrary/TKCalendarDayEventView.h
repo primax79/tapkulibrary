@@ -62,5 +62,7 @@
 
 @property (nonatomic, readonly) CGFloat contentHeight;
 
+@property (nonatomic, strong) UIColor * txtColor;
+@property (nonatomic, strong) UIColor * bgColor;
 
 @end
