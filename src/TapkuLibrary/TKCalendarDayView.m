@@ -190,7 +190,7 @@
 	NSInteger cnt = 0;
 	NSArray *daySymbols = [[NSCalendar currentCalendar] shortWeekdaySymbols];
 	CGFloat wid = CGRectGetWidth(self.frame);
-	CGFloat xmargin = 20;
+	CGFloat xmargin = 0;
 	wid -= 8;
 	
 	for(NSString *str in daySymbols){
@@ -199,7 +199,9 @@
 		label.text = [str substringToIndex:1];
 		label.textColor = cnt == 0 || cnt == 6 ? WEEKEND_TEXT_COLOR : [UIColor blackColor];
 		label.textAlignment = NSTextAlignmentCenter;
-		[label sizeToFit];
+        //label.backgroundColor = [UIColor redColor];
+		//[label sizeToFit];
+        
 		label.userInteractionEnabled = NO;
 		[self.daysBackgroundView addSubview:label];
 		cnt++;
@@ -387,7 +389,8 @@
 	return x / w;
 }
 - (void) _updateDateLabel{
-	self.formatter.dateFormat = @"EEEE MMMM d, yyyy";
+    self.formatter.dateStyle = NSDateFormatterFullStyle;
+    self.formatter.timeStyle = NSDateFormatterNoStyle;
 	self.formatter.timeZone = self.calendar.timeZone;
 	self.monthYearLabel.text = [self.formatter stringFromDate:self.currentDay];
 }
@@ -1139,7 +1142,7 @@
 	
 	NSMutableArray *labels = [NSMutableArray arrayWithCapacity:7];
 	for(NSInteger i=0;i<7;i++){
-		TKDateLabel *label = [[TKDateLabel alloc] initWithFrame:CGRectMake((8+(DAY_LABEL_WIDTH+9)*i)*[TKScale factor], 16, DAY_LABEL_WIDTH, DAY_LABEL_WIDTH)];
+		TKDateLabel *label = [[TKDateLabel alloc] initWithFrame:CGRectMake((8+(DAY_LABEL_WIDTH+9)*i)*[TKScale factor], 24, DAY_LABEL_WIDTH, DAY_LABEL_WIDTH-10)];
 		label.weekend = i % 6 == 0;
 		[self addSubviewToBack:label];
 		[labels addObject:label];
@@ -1160,7 +1163,10 @@
 - (instancetype) initWithFrame:(CGRect)frame{
 	if(!(self=[super initWithFrame:frame])) return nil;
 	self.textAlignment = NSTextAlignmentCenter;
-	self.layer.cornerRadius = DAY_LABEL_WIDTH / 2.0f;
+	//self.layer.cornerRadius = DAY_LABEL_WIDTH / 2.0f;
+    self.layer.cornerRadius = MIN(frame.size.width, frame.size.height) / 2.0f;
+    
+    
 	self.clipsToBounds = YES;
 	[self _updateLabelColorState];
     return self;
