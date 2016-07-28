@@ -72,5 +72,7 @@ typedef enum { // add more colors what you need
 
 @property (nonatomic, readonly) CGFloat contentHeight;
 
+@property (nonatomic, strong) UIColor * txtColor;
+@property (nonatomic, strong) UIColor * bgColor;
 
 @end
